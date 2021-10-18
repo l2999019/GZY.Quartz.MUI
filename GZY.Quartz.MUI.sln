@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GZY.Quartz.MUI", "GZY.Quartz.MUI\GZY.Quartz.MUI.csproj", "{2FBEB440-6A3A-4BF3-AAD4-25C285C5A244}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestUI", "TestUI\TestUI.csproj", "{AA132966-0C5E-4089-9F6D-53DF46F75F63}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2FBEB440-6A3A-4BF3-AAD4-25C285C5A244}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FBEB440-6A3A-4BF3-AAD4-25C285C5A244}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FBEB440-6A3A-4BF3-AAD4-25C285C5A244}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FBEB440-6A3A-4BF3-AAD4-25C285C5A244}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA132966-0C5E-4089-9F6D-53DF46F75F63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA132966-0C5E-4089-9F6D-53DF46F75F63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA132966-0C5E-4089-9F6D-53DF46F75F63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA132966-0C5E-4089-9F6D-53DF46F75F63}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		VisualSVNWorkingCopyRoot = .
+		SolutionGuid = {81A46584-B11A-4D86-B23A-5AA047025933}
+	EndGlobalSection
+EndGlobal

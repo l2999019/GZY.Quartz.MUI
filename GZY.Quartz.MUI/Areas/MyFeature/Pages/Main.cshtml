@@ -1,0 +1,512 @@
+﻿@page "/QuartzUI"
+
+@model GZY.Quartz.MUI.Areas.MyFeature.Pages.MainModel
+@{
+    Layout = "_JavasCriptLayout";
+}
+<div id="main">
+    <el-container>
+        <el-header style="padding: 0;">
+            <!-- 头部样式 -->
+            <el-menu :default-active="activeIndex" mode="horizontal" background-color="#fcfcfc">
+                <el-menu-item index="1">任务调度</el-menu-item>
+            </el-menu>
+        </el-header>
+        <el-main>
+            <el-row type="flex" align="middle">
+                <el-col :span="12">
+                    <h4>后台任务列表</h4>
+                </el-col>
+                <el-col :span="12" style="text-align: right;">
+                    <el-button type="primary" size="mini" icon="el-icon-plus" @@click="handleXJRW">新建任务</el-button>
+                    <el-button type="success" size="mini" icon="el-icon-video-pause" @@click="handleZTRW">暂停任务</el-button>
+                    <el-button type="warning" size="mini" icon="el-icon-open" @@click="handleKQRW">开启任务</el-button>
+                    <el-button type="danger" size="mini" icon="el-icon-video-play" @@click="handleLJZX">立即执行</el-button>
+                    <el-button type="info" size="mini" icon="el-icon-edit" @@click="handleXGRW">修改任务</el-button>
+                    <el-button type="danger" size="mini" icon="el-icon-delete-solid" @@click="OnDeleteJobs">删除任务</el-button>
+                    <el-button type="default" size="mini" icon="el-icon-refresh" @@click="OnLoadJobs">刷新数据</el-button>
+                </el-col>
+            </el-row>
+            <el-row type="flex" align="middle">
+                <el-col :span="24" style="padding: 10px 0 0 0;">
+                    <el-table ref="tb" :data="tableData" border stripe style="width: 100%;" highlight-current-row
+                              :header-cell-style="{backgroundColor:'#F5F7FA',color:'#000000'}" @@current-change="handleSelect">
+                        <el-table-column type="index" width="50" label="序号" align="center">
+                        </el-table-column>
+                        <el-table-column prop="TaskName" label="任务" width="180" align="center">
+                        </el-table-column>
+                        <el-table-column prop="GroupName" label="分组" width="180" align="center">
+                        </el-table-column>
+                        <el-table-column prop="Interval" label="间隔时间" align="center">
+                        </el-table-column>
+                        <el-table-column prop="ApiUrl" label="ApiUrl" align="center">
+                        </el-table-column>
+                        <el-table-column prop="Status" label="运行状态" align="center">
+                            <template slot-scope="scope">
+                                <el-tag type="info" disable-transitions v-if="scope.row.Status==4">
+                                    {{scope.row.Status|formatStatues}}
+                                </el-tag>
+                                <el-tag type="danger" disable-transitions v-if="scope.row.Status==5">
+                                    {{scope.row.Status|formatStatues}}
+                                </el-tag>
+                                <el-tag type="success" disable-transitions v-if="scope.row.Status==6">
+                                    {{scope.row.Status|formatStatues}}
+                                </el-tag>
+                                <el-tag type="primary" disable-transitions v-if="scope.row.Status==7">
+                                    {{scope.row.Status|formatStatues}}
+                                </el-tag>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="LastRunTime" label="最近一次运行时间" align="center">
+                        </el-table-column>
+                        <el-table-column prop="Describe" label="任务描述" :show-overflow-tooltip="true" align="center">
+                        </el-table-column>
+                        <el-table-column prop="TaskType" label="任务类型" width="120" align="center">
+                            <template slot-scope="scope">
+                                {{scope.row.TaskType==1?'DLL':'API'}}
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="操作" align="center">
+                            <template slot-scope="scope">
+                                <el-button size="mini" type="default" @@click="handleCZ(scope.$index, scope.row)">执行记录</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </el-col>
+            </el-row>
+        </el-main>
+    </el-container>
+    <el-dialog :title="title" :visible.sync="dialogFormVisible">
+        <el-row type="flex" justify="center">
+            <el-col :span="23">
+                <el-form :model="ruleForm" ref="ruleForm" label-width="10em" class="demo-ruleForm">
+                    <el-form-item label="任务"
+                                  prop="TaskName"
+                                  :rules="rules.TaskName">
+                        <el-input v-model="ruleForm.TaskName" placeholder="请输入任务名称"></el-input>
+                    </el-form-item>
+                    <el-form-item label="分组"
+                                  prop="GroupName"
+                                  :rules="rules.GroupName">
+                        <el-input v-model="ruleForm.GroupName" placeholder="请输入分组名称"></el-input>
+                    </el-form-item>
+                    
+                    <el-form-item label="间隔时间"
+                                  prop="Interval"
+                                  :rules="rules.Interval">
+
+                        <el-input v-model="ruleForm.Interval"></el-input>
+                        <p style="font-size:12px;color:red">间隔时间请输入Cron表达式<a href="https://qqe2.com/cron">在线生成</a></p>
+                    </el-form-item>
+                    <el-form-item label="任务类型"
+                                  prop="TaskType"
+                                  :rules="rules.TaskType">
+                        <el-select v-model="ruleForm.TaskType" placeholder="请选择任务类型" @@change="taskTypeChange">
+                            <el-option label="DLL" :value="1"></el-option>
+                            <el-option label="API" :value="2"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="ApiUrl"
+                                  prop="ApiUrl"
+                                  :rules="rules.ApiUrl"
+                                  v-if="ruleForm.TaskType==2">
+                        <el-input v-model="ruleForm.ApiUrl" placeholder="请输入API地址"></el-input>
+                    </el-form-item>
+                    <el-form-item label="API访问类型"
+                                  prop="ApiRequestType"
+                                  :rules="rules.ApiRequestType"
+                                  v-if="ruleForm.TaskType==2">
+                        <el-select v-model="ruleForm.ApiRequestType" placeholder="请选择请求方式">
+                            <el-option label="GET" value="GET"></el-option>
+                            <el-option label="POST" value="POST"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="授权名"
+                                  prop="ApiAuthKey"
+                                  :rules="rules.ApiAuthKey"
+                                  v-if="ruleForm.TaskType==2">
+                        <el-input v-model="ruleForm.ApiAuthKey" placeholder="请输入API授权名"></el-input>
+                    </el-form-item>
+                    <el-form-item label="授权值"
+                                  prop="ApiAuthValue"
+                                  :rules="rules.ApiAuthValue"
+                                  v-if="ruleForm.TaskType==2">
+                        <el-input v-model="ruleForm.ApiAuthValue" placeholder="请输入API授权值"></el-input>
+                    </el-form-item>
+                    <el-form-item label="API参数"
+                                  prop="ApiParameter"
+                                  :rules="rules.ApiParameter"
+                                  v-if="ruleForm.TaskType==2">
+                        <el-input v-model="ruleForm.ApiParameter" placeholder="请输入API参数"></el-input>
+                    </el-form-item>
+                    <el-form-item label="DLL类型名"
+                                  prop="DllClassName"
+                                  :rules="rules.DllClassName"
+                                  v-if="ruleForm.TaskType==1">
+                        <el-input v-model="ruleForm.DllClassName" placeholder="请输入DLL类型名"></el-input>
+                    </el-form-item>
+                    @*<el-form-item label="Dll方法名"
+                      prop="DllActionName"
+                      :rules="rules.DllActionName"
+                      v-if="ruleForm.TaskType==1">
+            <el-input v-model="ruleForm.DllActionName" placeholder="请输入DLL方法名"></el-input>
+        </el-form-item>*@
+                    <el-form-item label="任务描述" prop="Describe">
+                        <el-input type="textarea" :rows="5" v-model="ruleForm.Describe"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @@click="submitForm('ruleForm')">{{btnText}}</el-button>
+                        <el-button @@click="resetForm('ruleForm')">重置</el-button>
+                    </el-form-item>
+                </el-form>
+            </el-col>
+        </el-row>
+    </el-dialog>
+    <el-dialog title="执行记录" :visible.sync="dialogRecordVisible">
+        <el-row type="flex" align="middle">
+            <el-col :span="24" style="padding: 10px 0 0 0;">
+                <el-table ref="tb_record" :data="recordData" border stripe style="width: 100%;" highlight-current-row
+                          :header-cell-style="{backgroundColor:'#F5F7FA',color:'#000000'}">
+                    <el-table-column type="index" width="50" label="序号" align="center">
+                    </el-table-column>
+                    <el-table-column prop="BeginDate" label="开始时间" width="180" align="center">
+                    </el-table-column>
+                    <el-table-column prop="EndDate" label="结束时间" width="180" align="center">
+                    </el-table-column>
+                    <el-table-column prop="Msg" label="消息" align="center" :show-overflow-tooltip="true">
+                    </el-table-column>
+                </el-table>
+            </el-col>
+        </el-row>
+        <el-row type="flex" align="middle">
+            <el-col :span="24" style="text-align: right;">
+                <el-pagination @@size-change="handleSizeChange"
+                               @@current-change="handleCurrentChange"
+                               :current-page="currentPage"
+                               :page-sizes="pageSizes"
+                               :page-size="pageSize"
+                               layout="total, sizes, prev, pager, next, jumper"
+                               :total="total"
+                               hide-on-single-page>
+                </el-pagination>
+            </el-col>
+        </el-row>
+    </el-dialog>
+</div>
+@section Scripts{
+    <script>
+        new Vue({
+            el: "#main",
+            data() {
+                return {
+                    activeIndex: '1',
+                    tableData:[],
+                    dialogFormVisible: false,
+                    dialogRecordVisible: false,
+                    ruleForm: this.initTaskEntity(),
+                    rules: {
+                        TaskName: [
+                            { required: true, message: '请输入任务名称', trigger: 'blur' }
+                        ],
+                        GroupName: [
+                            { required: true, message: '请输入分组名称', trigger: 'blur' }
+                        ],
+                        Interval: [
+                            { required: true, message: '请输入任务时间间隔', trigger: 'blur' }
+                        ],
+                        ApiUrl: [
+                            { required: true, message: '请输入调用的API地址', trigger: 'blur' }
+                        ],
+                        Describe: [
+                            { required: true, message: '请输入任务描述', trigger: 'blur' }
+                        ],
+                        TaskType: [
+                            { required: true, message: '请选择任务类型', trigger: 'change' }
+                        ],
+                        ApiRequestType: [
+                            { required: true, message: '请选择API访问类型', trigger: 'change' }
+                        ],
+                        //ApiAuthKey: [
+                        //    { required: true, message: '请输入Api授权名', trigger: 'blur' }
+                        //],
+                        //ApiAuthValue: [
+                        //    { required: true, message: '请输入Api授权值', trigger: 'blur' }
+                        //],
+                        //ApiParameter: [
+                        //    { required: true, message: '请输入API参数', trigger: 'blur' }
+                        //],
+                        DllClassName: [
+                            { required: true, message: '请输入类名', trigger: 'blur' }
+                        ]
+                        //DllActionName: [
+                        //    { required: true, message: '请输入方法名', trigger: 'blur' }
+                        //]
+                    },
+                    currentPage: 1,
+                    total: 0,
+                    pageSize: 20,
+                    pageSizes: [20, 30, 40, 50],
+                    selectrow: "",
+                    title: '新建任务',
+                    isedit: false,
+                    btnText: '立即创建',
+                    recordData:[]
+                }
+            },
+            mounted: function () {
+                this.OnLoadJobs();
+            },
+            methods: {
+                OnLoadJobs() {
+                    var that = this;
+                    axios("?handler=SelectJob").then(function (res) {
+                        that.tableData = res.data;
+                    });
+                },
+                handleXJRW() {
+                    this.title = "新建任务";
+                    this.btnText = "立即创建";
+                    this.isedit = false;
+                    this.ruleForm = this.initTaskEntity();
+                    this.dialogFormVisible = true;
+                },
+                OnDeleteJobs() {
+                    var that = this;
+                    ELEMENT.MessageBox.confirm('此操作将永久删除该任务, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        axios.post("?handler=DeleteJob", null,
+                            {
+                                params: that.selectrow
+                            }).then(function (res) {
+                                if (res.data.status) {
+
+                                    that.OnLoadJobs();
+                                }
+                                ELEMENT.MessageBox.alert(res.data.message, "系统提示");
+                            });
+                        
+                    }).catch(() => { });
+                },
+                handleSelect(val) {
+                    this.selectrow = val;
+                },
+                resetForm(name) {
+                    var that = this;
+                    this.$refs[name].resetFields();
+                    if (this.isedit) {
+                        this.ruleForm = this.initTaskEntity();
+                        this.ruleForm.id = this.selectrow.id;
+                        this.ruleForm.timeflag = this.selectrow.timeflag;
+                        this.ruleForm.changetime = this.selectrow.changetime;
+                    }
+                },
+                handleSizeChange(size) {
+                    this.currentPage = 1;
+                    this.pageSize = size;
+                    this.getRecord();
+                },
+                handleCurrentChange(page) {
+                    this.currentPage = page;
+                    this.getRecord();
+                },
+                handleCZ(index, row) {
+                    this.currentPage = 1;
+                    this.pageSize = 20;
+                    this.selectrow = row;
+                    this.getRecord(() => {
+                        this.dialogRecordVisible = true;
+                    });
+                },
+                getRecord(callback) {
+                    axios.post("?handler=JobRecord", null, {
+                        params: {
+                            taskName: this.selectrow.TaskName,
+                            groupName: this.selectrow.GroupName,
+                            current: this.currentPage,
+                            size: this.pageSize
+                        }
+                    }).then(res => {
+                        this.total = res.data.total;
+                        this.recordData = res.data.data;
+                        if (callback) {
+                            callback();
+                        }
+                    });
+                },
+                handleZTRW() {
+                    if (!this.selectrow) {
+                        this.$message({
+                            message: '请选择作业',
+                            type: 'warning'
+                        });
+                        return false;
+                    }
+                    ELEMENT.MessageBox.confirm('确定暂停选中任务吗?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        axios.post("?handler=PauseJob", null,
+                            {
+                                params: this.selectrow
+                            }).then( res=> {
+                                if (res.data.status) {
+
+                                    this.OnLoadJobs();
+                                }
+                                ELEMENT.MessageBox.alert(res.data.message, "系统提示");
+                            });
+                    }).catch(() => { });
+                },
+                handleKQRW() {
+                    if (!this.selectrow) {
+                        this.$message({
+                            message: '请选择作业',
+                            type: 'warning'
+                        });
+                        return false;
+                    }
+                    ELEMENT.MessageBox.confirm('确定开启选中任务吗?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        axios.post("?handler=StartJob", null,
+                            {
+                                params: this.selectrow
+                            }).then(res => {
+                                if (res.data.status) {
+                                    this.OnLoadJobs();
+                                }
+                                ELEMENT.MessageBox.alert(res.data.message, "系统提示");
+                            });
+                    }).catch(() => { });
+                },
+                handleLJZX() {
+                    if (!this.selectrow) {
+                        this.$message({
+                            message: '请选择作业',
+                            type: 'warning'
+                        });
+                        return false;
+                    }
+                    ELEMENT.MessageBox.confirm('确定立即执行选中任务吗?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        axios.post("?handler=RunJob", null,
+                            {
+                                params: this.selectrow
+                            }).then(res => {
+                                if (res.data.status) {
+                                    this.OnLoadJobs();
+                                }
+                                ELEMENT.MessageBox.alert(res.data.message, "系统提示");
+                            });
+                    }).catch(() => { });
+                },
+                handleXGRW() {
+                    if (!this.selectrow) {
+                        this.$message({
+                            message: '请选择作业',
+                            type: 'warning'
+                        });
+                        return false;
+                    }
+                    this.isedit = true;
+                    this.title = "修改任务";
+                    this.btnText = "立即修改";
+                    this.dialogFormVisible = true;
+                    this.ruleForm = Object.assign({}, this.selectrow);
+                },
+                submitForm(name) {
+                    var that = this;
+                    this.$refs[name].validate((valid) => {
+                        if (valid) {
+                            let url = "";
+                            if (this.isedit) {
+                                url = "?handler=UpdateJob";
+                            } else {
+                                url = "?handler=AddJob";
+                            }
+                            axios.post(url, null,
+                                {
+                                    params: that.ruleForm
+                                }
+                            ).then(function (res) {
+                                if (res.data.status) {
+                                    ELEMENT.MessageBox.alert(res.data.message, "系统信息", {
+                                        type: 'success', callback: () => {
+                                            that.OnLoadJobs();
+                                            that.resetForm('ruleForm');
+                                            that.dialogFormVisible = false;
+                                        }
+                                    });
+
+                                } else {
+                                    ELEMENT.MessageBox.alert(res.data.message, "系统信息", {
+                                        type: 'info', callback: () => {
+                                            //that.OnLoadJobs();
+                                            //that.resetForm('ruleForm');
+                                            //that.dialogFormVisible = false;
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                },
+                taskTypeChange(val) {
+                    this.$refs["ruleForm"].clearValidate();
+                },
+                initTaskEntity() {
+                    return {
+                        TaskName: '',
+                        GroupName: '',
+                        Interval: '',
+                        ApiUrl: '',
+                        Describe: '',
+                        LastRunTime: '',
+                        Status: '',
+                        TaskType: '',
+                        ApiRequestType: '',
+                        ApiAuthKey: '',
+                        ApiAuthValue: '',
+                        ApiParameter: '',
+                        DllClassName: '',
+                        DllActionName: '',
+                        changetime: '',
+                        id: 0,
+                        timeflag:''
+                    }
+                }
+            },
+            filters: {
+                formatStatues(val) {
+                    switch (val) {
+                        case 1:
+                            return '新增';
+                        case 2:
+                            return '删除';
+                        case 3:
+                            return '修改';
+                        case 4:
+                            return '暂停';
+                        case 5:
+                            return '停止';
+                        case 6:
+                            return '开启';
+                        case 7:
+                            return '立即执行';
+                        default:
+                            return "";
+                    }
+                }
+            }
+        });
+    </script>
+}
