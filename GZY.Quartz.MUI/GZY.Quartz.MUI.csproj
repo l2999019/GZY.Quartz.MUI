@@ -4,8 +4,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
-    <Version>1.1.1</Version>
-    <Description>基于Quartz定时任务的维护UI</Description>
+    <Version>1.1.2</Version>
+    <Description>基于Quartz定时任务的维护UI
+1.1.2:修复了一些BUG与显示问题</Description>
     <Copyright>GuZhenYin</Copyright>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Authors>GuZhenYin</Authors>
