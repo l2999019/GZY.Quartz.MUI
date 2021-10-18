@@ -14,10 +14,10 @@
         </el-header>
         <el-main>
             <el-row type="flex" align="middle">
-                <el-col :span="12">
+                <el-col :span="8">
                     <h4>后台任务列表</h4>
                 </el-col>
-                <el-col :span="12" style="text-align: right;">
+                <el-col :span="16" style="text-align: right;">
                     <el-button type="primary" size="mini" icon="el-icon-plus" @@click="handleXJRW">新建任务</el-button>
                     <el-button type="success" size="mini" icon="el-icon-video-pause" @@click="handleZTRW">暂停任务</el-button>
                     <el-button type="warning" size="mini" icon="el-icon-open" @@click="handleKQRW">开启任务</el-button>
@@ -41,7 +41,7 @@
                         </el-table-column>
                         <el-table-column prop="ApiUrl" label="ApiUrl" align="center">
                         </el-table-column>
-                        <el-table-column prop="Status" label="运行状态" align="center">
+                        <el-table-column prop="Status"  width="70" label="运行状态" align="center">
                             <template slot-scope="scope">
                                 <el-tag type="info" disable-transitions v-if="scope.row.Status==4">
                                     {{scope.row.Status|formatStatues}}

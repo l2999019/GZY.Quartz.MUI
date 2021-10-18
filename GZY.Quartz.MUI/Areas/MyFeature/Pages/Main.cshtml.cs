@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GZY.Quartz.MUI.Enum;
 using GZY.Quartz.MUI.Model;
 using GZY.Quartz.MUI.Service;
 using GZY.Quartz.MUI.Tools;
@@ -39,7 +40,7 @@ namespace GZY.Quartz.MUI.Areas.MyFeature.Pages
         public async Task<IActionResult> OnPostAddJob()
         {
            var date = await  _quartzHandle.AddJob(Input);
-
+            Input.Status = Convert.ToInt32(JobState.ÔÝÍ£);
             return new JsonDataResult(date);
         }
         /// <summary>

@@ -41,8 +41,9 @@ namespace GZY.Quartz.MUI.Service
         {
             int total = _quarzEFContext.tab_quarz_tasklog.Where(a => a.TaskName == taskName
               && a.GroupName == groupName).Count();
+            var pagem = page - 1;
             var data = await _quarzEFContext.tab_quarz_tasklog.Where(a => a.TaskName == taskName
-            && a.GroupName == groupName).OrderByDescending(a=>a.id).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            && a.GroupName == groupName).OrderByDescending(a=>a.id).Skip(pagem * pageSize).Take(pageSize).ToListAsync();
             ResultData<tab_quarz_tasklog> resultData = new ResultData<tab_quarz_tasklog>() { total = total, data = data };
             return resultData;
         }
