@@ -68,7 +68,7 @@ namespace GZY.Quartz.MUI.Tools
         /// <returns></returns>
         public List<tab_quarz_task> GetJobs(Expression<Func<tab_quarz_task, bool>> where)
         {
-            string path = $"{_rootPath}\\{TaskJobFileName}.txt";
+            string path = $"{_rootPath}\\{TaskJobFileName}";
             List<tab_quarz_task> list = new List<tab_quarz_task>();
 
             path = path.ReplacePath();
@@ -93,7 +93,7 @@ namespace GZY.Quartz.MUI.Tools
         /// <returns></returns>
         public  List<tab_quarz_tasklog> GetJobRunLog( string taskName, string groupName, int page, int pageSize = 100)
         {
-            string path = $"{_logPath}{groupName}\\{taskName}.txt";
+            string path = $"{_logPath}{groupName}\\{taskName}";
             List<tab_quarz_tasklog> list = new List<tab_quarz_tasklog>();
 
             path = path.ReplacePath();
@@ -136,29 +136,29 @@ namespace GZY.Quartz.MUI.Tools
             WriteFile(LogPath, "start.txt", content, true);
         }
 
-        public  void WriteJobAction(JobState jobAction, ITrigger trigger, string taskName, string groupName)
+
+        public  void WriteJobLogs(tab_quarz_tasklog tab_Quarz_Tasklog)
         {
-            WriteJobAction(jobAction, taskName, groupName, trigger == null ? "未找到作业" : "OK");
-        }
-        public  void WriteJobAction(JobState jobAction, string taskName, string groupName, string content = null)
-        {
-            content = $"{jobAction.ToString()} --  {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}  --分组：{groupName},作业：{taskName},消息:{content ?? "OK"}\r\n";
-            WriteFile(LogPath, "action.txt", content, true);
+
+            var content = JsonConvert.SerializeObject(tab_Quarz_Tasklog)+"\r\n";
+            WriteFile(LogPath, "logs.txt", content, true);
         }
 
-        public  void WriteAccess(string content = null)
-        {
-            content = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}_{content}\r\n";
-            WriteFile(LogPath, "access.txt", content, true);
-        }
 
-        public  string GetAccessLog(int pageSize = 1)
+        public  List<tab_quarz_tasklog> GetJobsLog(int pageSize = 1)
         {
-            string path = LogPath + "access.txt";
+            string path = LogPath + "logs.txt";
             path = path.ReplacePath();
             if (!File.Exists(path))
-                return "没有找到目录";
-            return string.Join("<br/>", ReadPageLine(path, pageSize, 5000, true).ToList());
+                return null;
+
+            var listlogs = ReadPageLine(path, pageSize, 5000, true).ToList();
+            List<tab_quarz_tasklog> listtasklogs = new List<tab_quarz_tasklog>();
+            foreach (var item in listlogs)
+            {
+                listtasklogs.Add(JsonConvert.DeserializeObject<tab_quarz_tasklog>(item));
+            }
+            return listtasklogs;
         }
         public  string RootPath
         {

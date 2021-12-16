@@ -21,29 +21,33 @@ namespace GZY.Quartz.MUI.Extensions
 {
     public static class QuartzUIExtension
     {
-        public static IServiceCollection AddQuartzUI(this IServiceCollection services, DbContextOptions<QuarzEFContext> option=null)
+        public static IServiceCollection AddQuartzUI(this IServiceCollection services, DbContextOptions<QuarzEFContext> option = null)
         {
             services.AddRazorPages();
             services.AddHttpClient();
             services.AddHttpContextAccessor();
             if (option != null)
             {
-                if (option != null)
-                {
 
-                    services.AddSingleton<DbContextOptions<QuarzEFContext>>(a => { return option; });
-                    services.AddDbContext<QuarzEFContext>();
-                    services.AddScoped<IQuartzLogService, EFQuartzLogService>();
-                    services.AddScoped<IQuartzService, EFQuartzService>();
+                services.AddSingleton<DbContextOptions<QuarzEFContext>>(a => { return option; });
+                services.AddDbContext<QuarzEFContext>();
+                services.AddScoped<IQuartzLogService, EFQuartzLogService>();
+                services.AddScoped<IQuartzService, EFQuartzService>();
 
-                }
-                services.AddScoped<HttpResultfulJob>();
-                services.AddScoped<ClassLibraryJob>();
-                services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
-                services.AddSingleton<IJobFactory, ASPDIJobFactory>();
-                services.AddScoped<IQuartzHandle, QuartzHandle>();
-                
+
             }
+            else
+            {
+                services.AddScoped<QuartzFileHelper>();
+                services.AddScoped<IQuartzLogService, FileQuartzLogService>();
+                services.AddScoped<IQuartzService, FileQuartzService>();
+            }
+
+            services.AddScoped<HttpResultfulJob>();
+            services.AddScoped<ClassLibraryJob>();
+            services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+            services.AddSingleton<IJobFactory, ASPDIJobFactory>();
+            services.AddScoped<IQuartzHandle, QuartzHandle>();
             return services;
 
         }

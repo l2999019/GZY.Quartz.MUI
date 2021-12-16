@@ -308,7 +308,7 @@ namespace GZY.Quartz.MUI.Tools
         public async Task<ResultQuartzData> Update(tab_quarz_task taskOptions)
         {
             var isjob = await IsQuartzJob(taskOptions.TaskName, taskOptions.GroupName);
-            var taskmodle = (await _quartzService.GetJobs(a => a.TaskName == taskOptions.TaskName && a.GroupName == taskOptions.GroupName)).FirstOrDefault();
+            var taskmodle = (await _quartzService.GetJobs(a =>a.id == taskOptions.id)).FirstOrDefault();
             var message = "";
             if (isjob.status) //如果Quartz存在就更新
             {
