@@ -9,7 +9,14 @@
 https://www.cnblogs.com/GuZhenYin/p/15411316.html
 
 
-简易步骤:  
+简易步骤: 
+本地文件存储版本:
+1.注入QuartzUI
+  services.AddQuartzUI();
+2.如需开启ClassJob则注入以下内容
+  services.AddQuartzClassJobs();
+  
+数据库版本 
 1.注入QuartzUI  
 var optionsBuilder = new DbContextOptionsBuilder<QuarzEFContext>();  
 optionsBuilder.UseMysql("server=xxxxxxx;database=xxx;User Id=xxxx;PWD=xxxx", b => b.MaxBatchSize(1));//创建数据库连接  
