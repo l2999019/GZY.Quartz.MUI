@@ -37,7 +37,16 @@ namespace GZY.Quartz.MUI.Model
                  };
 
             }
-
+            if (typename.Equals("Microsoft.AspNetCore.Mvc.NewtonsoftJson.NewtonsoftJsonResultExecutor"))
+            {
+                this.SerializerSettings = new Newtonsoft.Json.JsonSerializerSettings()
+                {
+                    DateFormatString = "yyyy-MM-dd HH:mm:ss",
+                    ContractResolver = null,
+                    DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Local,
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Serialize
+                };
+            }
             base.ExecuteResult(context);
         }
 
@@ -54,6 +63,16 @@ namespace GZY.Quartz.MUI.Model
                     WriteIndented = true,
                     Converters = { new DateTimeJsonConverter() },
                     Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(UnicodeRanges.All)
+                };
+            }
+            if (typename.Equals("Microsoft.AspNetCore.Mvc.NewtonsoftJson.NewtonsoftJsonResultExecutor"))
+            {
+                this.SerializerSettings = new Newtonsoft.Json.JsonSerializerSettings()
+                {
+                    DateFormatString = "yyyy-MM-dd HH:mm:ss",
+                    ContractResolver = null,
+                    DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Local,
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Serialize
                 };
             }
             return base.ExecuteResultAsync(context);

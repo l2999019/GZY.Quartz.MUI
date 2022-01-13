@@ -94,6 +94,7 @@ namespace GZY.Quartz.MUI.Extensions
 
         public static IApplicationBuilder UseQuartz(this IApplicationBuilder builder)
         {
+            builder.UseRouting();
             builder.UseStaticFiles();
             builder.UseEndpoints(endpoints =>
             {

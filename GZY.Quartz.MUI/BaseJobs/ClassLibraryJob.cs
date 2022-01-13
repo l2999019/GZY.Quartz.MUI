@@ -69,7 +69,7 @@ namespace GZY.Quartz.MUI.BaseJobs
                 var service = services.Where(a => a.GetType().Name == taskOptions.DllClassName).FirstOrDefault();
                 if (service != null)
                 {
-                    httpMessage = service.ExecuteService("");
+                    httpMessage = service.ExecuteService(taskOptions.ApiParameter);
                 }
                 else
                 {

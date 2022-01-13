@@ -29,7 +29,6 @@ namespace GZY.Quartz.MUI.Tools
         private IWebHostEnvironment _env;
         private IConfiguration _configuration;
 
-
         public QuartzFileHelper(IWebHostEnvironment env, IConfiguration configuration)
         {
             _env = env;
@@ -121,6 +120,7 @@ namespace GZY.Quartz.MUI.Tools
         /// <param name="taskList"></param>
         public  void WriteJobConfig(List<tab_quarz_task> taskList)
         {
+            
             string jobs = JsonConvert.SerializeObject(taskList);
             //写入配置文件
             WriteFile(_rootPath, TaskJobFileName, jobs);
@@ -139,7 +139,6 @@ namespace GZY.Quartz.MUI.Tools
 
         public  void WriteJobLogs(tab_quarz_tasklog tab_Quarz_Tasklog)
         {
-
             var content = JsonConvert.SerializeObject(tab_Quarz_Tasklog)+"\r\n";
             WriteFile(LogPath, "logs.txt", content, true);
         }

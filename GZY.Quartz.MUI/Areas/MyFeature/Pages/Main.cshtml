@@ -133,11 +133,10 @@
                                   v-if="ruleForm.TaskType==2">
                         <el-input v-model="ruleForm.ApiAuthValue" placeholder="请输入API授权值"></el-input>
                     </el-form-item>
-                    <el-form-item label="API参数"
+                    <el-form-item label="参数(API和DLL通用)"
                                   prop="ApiParameter"
-                                  :rules="rules.ApiParameter"
-                                  v-if="ruleForm.TaskType==2">
-                        <el-input v-model="ruleForm.ApiParameter" placeholder="请输入API参数"></el-input>
+                                  :rules="rules.ApiParameter">
+                        <el-input v-model="ruleForm.ApiParameter" placeholder="请输入调用参数"></el-input>
                     </el-form-item>
                     <el-form-item label="DLL类型名"
                                   prop="DllClassName"
