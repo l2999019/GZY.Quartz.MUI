@@ -3,7 +3,7 @@
 
 |Licence| Build | NuGet | Support |
 |--|--|--|--|
-|![](https://svg.hamm.cn/badge.svg?key=Licence&value=MIT&color=e0861a)|![](https://svg.hamm.cn/badge.svg?key=.Netcore3.1&value=passing&color=45b97c)|[![](https://img.shields.io/nuget/dt/GZY.Quartz.MUI)](https://www.nuget.org/packages/GZY.Quartz.MUI)|![](https://svg.hamm.cn/badge.svg?key=.NetCore3.1|.Net5.0|.Net5.0&value=Support&color=00FF00)
+|![](https://svg.hamm.cn/badge.svg?key=Licence&value=MIT&color=e0861a)|![](https://svg.hamm.cn/badge.svg?key=.Netcore3.1&value=passing&color=45b97c)|[![](https://img.shields.io/nuget/dt/GZY.Quartz.MUI)](https://www.nuget.org/packages/GZY.Quartz.MUI)|![](https://svg.hamm.cn/badge.svg?key=.NetCore3.1 .Net5.0 .Net5.0&value=Support&color=00FF00)
 
 
 中文使用方法请参考:
