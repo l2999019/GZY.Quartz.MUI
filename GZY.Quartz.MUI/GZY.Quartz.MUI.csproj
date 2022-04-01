@@ -4,11 +4,14 @@
 	<TargetFrameworks>netcoreapp3.1;net5.0;net6.0;</TargetFrameworks>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
-    <Version>1.1.4</Version>
+    <Version>1.1.5</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/l2999019/GZY.Quartz.MUI.git</RepositoryUrl>
     <PackageProjectUrl>https://github.com/l2999019/GZY.Quartz.MUI</PackageProjectUrl>
     <Description>基于Quartz定时任务的维护UI
+1.1.5
+新增.net5.0 与.net6.0的支持
+修复部分提示信息
 1.1.4 
 新增DLL调用时,可以自定义参数
 修复在NewtonsoftJson下JSON转换异常的问题

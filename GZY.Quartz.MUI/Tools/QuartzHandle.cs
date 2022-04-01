@@ -148,7 +148,7 @@ namespace GZY.Quartz.MUI.Tools
                     {
                         await scheduler.ScheduleJob(job, trigger);
                         await Pause(item);
-                        _logger.LogError($"任务初始化,未启动,状态为:{item.Status}");
+                        _logger.LogInformation($"任务初始化,未启动,状态为:{item.Status}");
                         //await _quartzLogService.AddLog(new tab_quarz_tasklog() { TaskName = item.TaskName, GroupName = item.GroupName, Msg = $"任务初始化,未启动,状态为:{item.Status}" });
                         //FileQuartz.WriteStartLog($"作业:{taskOptions.TaskName},分组:{taskOptions.GroupName},新建时未启动原因,状态为:{taskOptions.Status}");
                     }
