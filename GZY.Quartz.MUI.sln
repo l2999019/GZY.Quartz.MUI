@@ -7,9 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GZY.Quartz.MUI", "GZY.Quart
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestUI", "TestUI\TestUI.csproj", "{AA132966-0C5E-4089-9F6D-53DF46F75F63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test5.0", "Test5.0\Test5.0.csproj", "{8E848555-F750-42EF-8E55-F06CD75692F8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test6.0", "Test6.0\Test6.0.csproj", "{293449A1-DB2B-4E07-AC80-887F75768BBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test6.0", "Test6.0\Test6.0.csproj", "{293449A1-DB2B-4E07-AC80-887F75768BBE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +23,6 @@ Global
 		{AA132966-0C5E-4089-9F6D-53DF46F75F63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA132966-0C5E-4089-9F6D-53DF46F75F63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA132966-0C5E-4089-9F6D-53DF46F75F63}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8E848555-F750-42EF-8E55-F06CD75692F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8E848555-F750-42EF-8E55-F06CD75692F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8E848555-F750-42EF-8E55-F06CD75692F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8E848555-F750-42EF-8E55-F06CD75692F8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{293449A1-DB2B-4E07-AC80-887F75768BBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{293449A1-DB2B-4E07-AC80-887F75768BBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{293449A1-DB2B-4E07-AC80-887F75768BBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -38,7 +32,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {81A46584-B11A-4D86-B23A-5AA047025933}
 		VisualSVNWorkingCopyRoot = .
+		SolutionGuid = {81A46584-B11A-4D86-B23A-5AA047025933}
 	EndGlobalSection
 EndGlobal
