@@ -102,6 +102,17 @@ namespace GZY.Quartz.MUI.Areas.MyFeature.Pages
 
             return new JsonDataResult(date);
         }
+
+        /// <summary>
+        /// 获取已注入的任务类
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult OnGetSelectClassJob()
+        {
+            var date = ClassJobsFactory.ClassJobs;
+
+            return new JsonDataResult(date);
+        }
         public void OnGet()
         {
         }

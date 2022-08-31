@@ -85,6 +85,8 @@ namespace GZY.Quartz.MUI.Extensions
             {
                 var interfaceType = implementType.GetInterfaces().First();
                     services.AddScoped(interfaceType, implementType);
+
+                ClassJobsFactory.ClassJobs.Add(implementType.Name);
             }
             return services;
 

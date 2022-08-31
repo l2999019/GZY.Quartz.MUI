@@ -58,7 +58,7 @@ namespace GZY.Quartz.MUI.BaseJobs
             tab_quarz_tasklog tab_Quarz_Tasklog = new tab_quarz_tasklog() { TaskName = taskOptions.TaskName, GroupName = taskOptions.GroupName, BeginDate = DateTime.Now };
             if (string.IsNullOrEmpty(taskOptions.DllClassName))
             {
-                _logger.LogError($"组别:{trigger.Group},名称:{trigger.Name},方法名为空!,时间:{DateTime.Now.ToString("yyyy-MM-dd HH:mm:sss")}");
+                _logger.LogError($"组别:{trigger.Group},名称:{trigger.Name},类名不能为空!,时间:{DateTime.Now.ToString("yyyy-MM-dd HH:mm:sss")}");
                 //FileHelper.WriteFile(FileQuartz.LogPath + trigger.Group, $"{trigger.Name}.txt", $"{ DateTime.Now.ToString("yyyy-MM-dd HH:mm:sss")}未配置url,", true);
                 return;
             }
