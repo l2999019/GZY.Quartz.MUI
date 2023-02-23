@@ -108,7 +108,7 @@ namespace GZY.Quartz.MUI.Extensions
             {
 
                 var dd = serviceScope.ServiceProvider.GetService<IQuartzHandle>();
-                dd.InitJobs();
+                dd.InitJobs().GetAwaiter().GetResult();
             }
 
             return builder;

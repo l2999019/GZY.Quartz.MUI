@@ -102,7 +102,7 @@ namespace GZY.Quartz.MUI.Tools
                 return new ResultQuartzData { status = false, message = $"请确认表达式{cronExpression}是否正确!" };
             }
         }
-        public async void InitJobs()
+        public async Task InitJobs()
         {
 
             var jobs = await _quartzService.GetJobs(a => 1 == 1);
