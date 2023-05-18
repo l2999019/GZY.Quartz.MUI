@@ -4,35 +4,39 @@
 	<TargetFrameworks>net6.0;</TargetFrameworks>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
-    <Version>2.0</Version>
+    <Version>2.1</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/l2999019/GZY.Quartz.MUI.git</RepositoryUrl>
     <PackageProjectUrl>https://github.com/l2999019/GZY.Quartz.MUI</PackageProjectUrl>
-    <Description>基于Quartz定时任务的维护UI
-2.0
-新版本不在支持.netcore3.1和5.0
-添加自动加载类库型任务的功能
-修复NewtonsoftJson版本的漏洞问题
-修复特定版本的mysql驱动下的数据加载问题
-1.1.5
-新增.net5.0 与.net6.0的支持
-修复部分提示信息
-1.1.4 
-新增DLL调用时,可以自定义参数
-修复在NewtonsoftJson下JSON转换异常的问题
-修复在特殊情况下,初始化异常的问题
-</Description>
+    <Description>
+		基于Quartz定时任务的UI管理界面
+		2.1
+        修复数据库初始化偶尔会出现的异常问题
+		2.0
+		新版本不在支持.netcore3.1和5.0
+		添加自动加载类库型任务的功能
+		修复NewtonsoftJson版本的漏洞问题
+		修复特定版本的mysql驱动下的数据加载问题
+		1.1.5
+		新增.net5.0 与.net6.0的支持
+		修复部分提示信息
+		1.1.4
+		新增DLL调用时,可以自定义参数
+		修复在NewtonsoftJson下JSON转换异常的问题
+		修复在特殊情况下,初始化异常的问题
+	</Description>
     <Copyright>GuZhenYin</Copyright>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Authors>GuZhenYin</Authors>
     <PackageIcon>8P)KFD9L[JN90ZZIV]B2JRK.png</PackageIcon>
     <PackageIconUrl />
-    <AssemblyVersion>2.0.0</AssemblyVersion>
-    <FileVersion>2.0.0</FileVersion>
+    <AssemblyVersion>2.1.0</AssemblyVersion>
+    <FileVersion>2.1.0</FileVersion>
     <SignAssembly>False</SignAssembly>
     <PackageReleaseNotes></PackageReleaseNotes>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
     <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
