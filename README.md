@@ -26,8 +26,11 @@ app.UseQuartz();
   
   
 运行项目即可   
-  
-    
+![image](https://github.com/l2999019/GZY.Quartz.MUI/assets/10385855/65ca3bdc-587e-486d-ab9b-e3502d361fd2)
+运行效果如下:
+  ![653851-20211229145753683-274021795](https://github.com/l2999019/GZY.Quartz.MUI/assets/10385855/3bcafe20-b779-48ab-a51d-67afcb199601)
+
+
    
   
   
