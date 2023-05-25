@@ -10,7 +10,7 @@
     <PackageProjectUrl>https://github.com/l2999019/GZY.Quartz.MUI</PackageProjectUrl>
     <Description>基于Quartz定时任务的UI管理界面
 2.4
-新增UI界面基础HttpBasic授权认证功能,可通过
+新增UI界面基础HttpBasic授权认证功能,可通过UseQuartzUIBasicAuthorized方法添加基本权限认证
 2.3
 新增支持DLL注入后,模糊查询类名的功能,方便添加定时任务
 2.2
