@@ -142,7 +142,7 @@
                                   prop="DllClassName"
                                   :rules="rules.DllClassName"
                                   v-if="ruleForm.TaskType==1">
-                            <el-select   v-model="ruleForm.DllClassName" placeholder="请选择DLL类型名">
+                        <el-select filterable v-model="ruleForm.DllClassName" placeholder="请选择DLL类型名">
                             <el-option label="无" value=""></el-option>
                             <el-option v-for="pclass in classjobs" :label="pclass" :value="pclass"></el-option>
                         </el-select>
