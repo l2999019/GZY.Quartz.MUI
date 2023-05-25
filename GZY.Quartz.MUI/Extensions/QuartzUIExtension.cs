@@ -1,6 +1,7 @@
 ﻿using GZY.Quartz.MUI.BaseJobs;
 using GZY.Quartz.MUI.BaseService;
 using GZY.Quartz.MUI.EFContext;
+using GZY.Quartz.MUI.Middleware;
 using GZY.Quartz.MUI.Service;
 using GZY.Quartz.MUI.Tools;
 using Microsoft.AspNetCore.Builder;
@@ -21,6 +22,8 @@ namespace GZY.Quartz.MUI.Extensions
 {
     public static class QuartzUIExtension
     {
+
+
         public static IServiceCollection AddQuartzUI(this IServiceCollection services, DbContextOptions<QuarzEFContext> option = null)
         {
             services.AddRazorPages();
@@ -112,6 +115,17 @@ namespace GZY.Quartz.MUI.Extensions
             }
 
             return builder;
+        }
+
+
+        /// <summary>
+        /// 注入授权信息
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder UseQuartzUIBasicAuthorized(this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<QuartzUIBasicAuthMiddleware>();
         }
     }
 }
