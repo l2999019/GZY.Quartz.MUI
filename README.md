@@ -30,6 +30,21 @@ app.UseQuartz();
 运行效果如下:
   ![653851-20211229145753683-274021795](https://github.com/l2999019/GZY.Quartz.MUI/assets/10385855/3bcafe20-b779-48ab-a51d-67afcb199601)
 
+有个比较重要的注意事项,一直忘记说了,这里也提一下
+
+因为组件使用RCL的技术实现的,所以在开发环境需要手动添加一下静态资源包
+
+.NET5.0的兄弟应该在Program类中添加如下代码:
+
+webBuilder.UseStaticWebAssets();
+
+如图:
+![image](https://github.com/l2999019/GZY.Quartz.MUI/assets/10385855/0c5cd8b7-00e8-439b-8131-58bfd5a1acc0)
+
+ 
+
+.NET6.0+的兄弟 应该添加如下代码:
+![image](https://github.com/l2999019/GZY.Quartz.MUI/assets/10385855/cc0034ba-d126-463e-bca7-7bed395d3726)
 
    
   
