@@ -74,6 +74,7 @@ namespace GZY.Quartz.MUI.BaseJobs
                 httpMessage = await httpClientFactory.HttpSendAsync(
                     taskOptions.ApiRequestType?.ToLower() == "get" ? HttpMethod.Get : HttpMethod.Post,
                     taskOptions.ApiUrl,
+                    taskOptions.ApiParameter,
                     header);
             }
             catch (Exception ex)
