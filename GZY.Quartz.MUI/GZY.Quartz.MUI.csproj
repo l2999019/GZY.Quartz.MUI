@@ -65,9 +65,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="F:\MyNuget\8P)KFD9L[JN90ZZIV]B2JRK.png">
+    <None Remove="8P%29KFD9L[JN90ZZIV]B2JRK.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="8P)KFD9L[JN90ZZIV]B2JRK.png">
       <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
+      <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 </Project>
