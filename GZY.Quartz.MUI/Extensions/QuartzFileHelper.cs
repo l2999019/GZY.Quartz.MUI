@@ -44,14 +44,12 @@ namespace GZY.Quartz.MUI.Tools
         {
             if (!string.IsNullOrEmpty(_rootPath))
                 return _rootPath;
-            _rootPath = $"{Directory.GetParent(_env.ContentRootPath).FullName}\\{QuartzSettingsFolder}\\";
-            _rootPath = _rootPath.ReplacePath();
+            _rootPath = Path.Combine(_env.ContentRootPath, QuartzSettingsFolder) + "/";
             if (!Directory.Exists(_rootPath))
             {
                 Directory.CreateDirectory(_rootPath);
             }
-            _logPath = _rootPath + Logs + "\\";
-            _logPath = _logPath.ReplacePath();
+            _logPath = Path.Combine(_rootPath, Logs)+ "/";
             //生成日志文件夹
             if (!Directory.Exists(_logPath))
             {
@@ -67,10 +65,9 @@ namespace GZY.Quartz.MUI.Tools
         /// <returns></returns>
         public List<tab_quarz_task> GetJobs(Expression<Func<tab_quarz_task, bool>> where)
         {
-            string path = $"{_rootPath}\\{TaskJobFileName}";
+            string path = $"{_rootPath}/{TaskJobFileName}";
             List<tab_quarz_task> list = new List<tab_quarz_task>();
 
-            path = path.ReplacePath();
             if (!File.Exists(path))
                 return list;
             var tasks = ReadFile(path);
@@ -92,10 +89,8 @@ namespace GZY.Quartz.MUI.Tools
         /// <returns></returns>
         public  List<tab_quarz_tasklog> GetJobRunLog( string taskName, string groupName, int page, int pageSize = 100)
         {
-            string path = $"{_logPath}{groupName}\\{taskName}";
+            string path = $"{_logPath}{groupName}/{taskName}";
             List<tab_quarz_tasklog> list = new List<tab_quarz_tasklog>();
-
-            path = path.ReplacePath();
             if (!File.Exists(path))
                 return list;
             var logs = ReadPageLine(path, page, pageSize, true);
@@ -245,11 +240,10 @@ namespace GZY.Quartz.MUI.Tools
         /// <param name="Strings">文件内容</param>
         public  void WriteFile(string path, string fileName, string content, bool appendToLast = false)
         {
-            if (!path.EndsWith("\\"))
+            if (!path.EndsWith("/"))
             {
-                path = path + "\\";
+                path = path + "/";
             }
-            path = path.ReplacePath();
             if (!Directory.Exists(path))//如果不存在就创建file文件夹
             {
                 Directory.CreateDirectory(path);

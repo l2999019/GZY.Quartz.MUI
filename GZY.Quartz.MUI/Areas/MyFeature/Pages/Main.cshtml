@@ -35,7 +35,7 @@
                         </el-table-column>
                         <el-table-column prop="TaskName" label="任务" width="180" align="center">
                         </el-table-column>
-                        <el-table-column prop="GroupName" label="分组" width="180" align="center">
+                        <el-table-column prop="GroupName" label="分组" width="180" align="center" sortable>
                         </el-table-column>
                         <el-table-column prop="Interval" label="间隔时间" align="center">
                         </el-table-column>
@@ -57,7 +57,7 @@
                                 </el-tag>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="LastRunTime" label="最近一次运行时间" align="center">
+                        <el-table-column prop="LastRunTime" label="最近一次运行时间" align="center" sortable>
                         </el-table-column>
                         <el-table-column prop="Describe" label="任务描述" :show-overflow-tooltip="true" align="center">
                         </el-table-column>
