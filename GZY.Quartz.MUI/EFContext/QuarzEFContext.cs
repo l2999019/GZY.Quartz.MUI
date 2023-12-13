@@ -20,23 +20,7 @@ namespace GZY.Quartz.MUI.EFContext
 
         {
             var databaseCreator = this.GetService<IRelationalDatabaseCreator>();
-           
-            if (!databaseCreator.HasTables())
-            {
                 databaseCreator.EnsureCreated();
-            }
-            //初始化的时候创建数据库
-            //this.Database.EnsureCreated();
-            //判断是否有待迁移
-            //if (this.Database.GetPendingMigrations().Any())
-            //{
-            //    Console.WriteLine("检测到实体有改动,正在创建迁移...");
-            //    //执行迁移
-            //    this.Database.Migrate();
-            //    Console.WriteLine("迁移完成");
-            //}
-            //this.GetService<ILoggerFactory>().AddProvider(new MyFilteredLoggerProvider());
-            //options
         }
 
         #region 添加操作时间
