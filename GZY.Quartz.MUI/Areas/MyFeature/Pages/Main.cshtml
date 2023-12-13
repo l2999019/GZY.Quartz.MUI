@@ -30,7 +30,7 @@
             <el-row type="flex" align="middle">
                 <el-col :span="24" style="padding: 10px 0 0 0;">
                     <el-table ref="tb" :data="tableData" border stripe style="width: 100%;" highlight-current-row
-                              :header-cell-style="{backgroundColor:'#F5F7FA',color:'#000000'}" @@current-change="handleSelect">
+                              :default-sort="{prop: 'GroupName', order: 'ascending'}" :header-cell-style="{backgroundColor:'#F5F7FA',color:'#000000'}" @@current-change="handleSelect">
                         <el-table-column type="index" width="50" label="序号" align="center">
                         </el-table-column>
                         <el-table-column prop="TaskName" label="任务" width="180" align="center">
@@ -57,7 +57,7 @@
                                 </el-tag>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="LastRunTime" label="最近一次运行时间" align="center" sortable>
+                        <el-table-column prop="LastRunTime" label="最近一次运行时间" align="center">
                         </el-table-column>
                         <el-table-column prop="Describe" label="任务描述" :show-overflow-tooltip="true" align="center">
                         </el-table-column>
