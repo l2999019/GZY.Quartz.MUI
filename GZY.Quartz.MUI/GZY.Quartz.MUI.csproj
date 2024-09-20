@@ -4,23 +4,26 @@
 	<TargetFrameworks>net8.0;net6.0;net5.0</TargetFrameworks>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
-    <Version>2.6</Version>
+    <Version>2.7</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/l2999019/GZY.Quartz.MUI.git</RepositoryUrl>
     <PackageProjectUrl>https://github.com/l2999019/GZY.Quartz.MUI</PackageProjectUrl>
     <Description>
       基于Quartz定时任务的UI管理界面
-      2.6
-      修复数据库存储时,查询最后一次执行时间异常的问题.
-      根据.net版本统一类库版本,修复因为EF类库版本导致报错的问题
+      2.7
+      1.添加API类任务的超时时间,可以通过全局配置也可以单个任务设置
+      2.设置定时任务日志查看默认按开始时间倒序
+      3.添加是否显示控制台日志的全局配置
+      4.优化UI显示-固定操作栏和表头,方便任务较多的情况下操作
+      5.优化UI显示-执行记录消息添加支持br关键字进行换行查看
     </Description>
     <Copyright>GuZhenYin</Copyright>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Authors>GuZhenYin</Authors>
     <PackageIcon>8P)KFD9L[JN90ZZIV]B2JRK.png</PackageIcon>
     <PackageIconUrl />
-    <AssemblyVersion>2.6.0</AssemblyVersion>
-    <FileVersion>2.6.0</FileVersion>
+    <AssemblyVersion>2.7.0</AssemblyVersion>
+    <FileVersion>2.7.0</FileVersion>
     <SignAssembly>False</SignAssembly>
     <PackageReleaseNotes></PackageReleaseNotes>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
@@ -67,9 +70,12 @@
       <Pack>True</Pack>
       <Content>
         基于Quartz定时任务的UI管理界面
-        2.6
-        修复数据库存储时,查询最后一次执行时间异常的问题.
-        根据.net版本统一类库版本,修复因为EF类库版本导致报错的问题
+        2.7
+        1.添加API类任务的超时时间,可以通过全局配置也可以单个任务设置
+        2.设置定时任务日志查看默认按开始时间倒序
+        3.添加是否显示控制台日志的全局配置
+        4.优化UI显示-固定操作栏和表头,方便任务较多的情况下操作
+        5.优化UI显示-执行记录消息添加支持br关键字进行换行查看
       </Content>
       <PackagePath>\</PackagePath>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
