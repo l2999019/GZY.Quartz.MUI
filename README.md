@@ -46,6 +46,8 @@ https://www.cnblogs.com/GuZhenYin/p/15411316.html
 .NET6.0+的兄弟 应该添加如下代码:
 ![image](https://github.com/l2999019/GZY.Quartz.MUI/assets/10385855/cc0034ba-d126-463e-bca7-7bed395d3726)
 </br>
+</br>
+</br>
  2.7 更新说明:</br>
  1.添加API类任务的超时时间,可以通过全局配置也可以单个任务设置</br>
  2.设置定时任务日志查看默认按开始时间倒序</br>
