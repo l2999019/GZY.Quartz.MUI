@@ -20,7 +20,8 @@ namespace GZY.Quartz.MUI.Extensions
         {
             var client = httpClientFactory.CreateClient();
             client.Timeout = TimeSpan.FromSeconds(ApiTimeout);
-            var postContent = new StringContent(parmet, Encoding.UTF8, "application/json");
+            
+            var postContent = parmet==null?null:new StringContent(parmet, Encoding.UTF8, "application/json");
            // var content = new StringContent("");
             // content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
             var request = new HttpRequestMessage(method, url)
