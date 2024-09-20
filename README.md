@@ -52,6 +52,7 @@ https://www.cnblogs.com/GuZhenYin/p/15411316.html
  1.添加API类任务的超时时间,可以通过全局配置也可以单个任务设置</br>
  2.设置定时任务日志查看默认按开始时间倒序</br>
  3.添加是否显示控制台日志的全局配置 </br>
+   目前支持两个参数 `ShowConsoleLog //是否显示控制台日志` ，`DefaultApiTimeOut //默认全局API超时时间` <br />
    代码如下: </br>
    `builder.Services.AddQuartzUI(quartzMUIOptions: new QuartzMUIOptions() { ShowConsoleLog=false,DefaultApiTimeOut=10});` </br>
  4.优化UI显示-固定操作栏和表头,方便任务较多的情况下操作</br>
