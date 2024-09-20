@@ -28,8 +28,8 @@
                 </el-col>
             </el-row>
             <el-row type="flex" align="middle">
-                <el-col :span="24" style="padding: 10px 0 0 0;">
-                    <el-table ref="tb" :data="tableData" border stripe style="width: 100%;" highlight-current-row
+                <el-col :span="24" style="padding: 10px 0 0 0;" >
+                    <el-table ref="tb" :data="tableData" border stripe style="width: 100%;" :height="tableheight" highlight-current-row
                               :default-sort="{prop: 'GroupName', order: 'ascending'}" :header-cell-style="{backgroundColor:'#F5F7FA',color:'#000000'}" @@current-change="handleSelect">
                         <el-table-column type="index" width="50" label="序号" align="center">
                         </el-table-column>
@@ -41,7 +41,7 @@
                         </el-table-column>
                         <el-table-column prop="ApiUrl" label="ApiUrl" align="center">
                         </el-table-column>
-                        <el-table-column prop="Status"  width="70" label="运行状态" align="center">
+                        <el-table-column prop="Status" width="70" label="运行状态" align="center" sortable>
                             <template slot-scope="scope">
                                 <el-tag type="info" disable-transitions v-if="scope.row.Status==4">
                                     {{scope.row.Status|formatStatues}}
@@ -133,6 +133,11 @@
                                   v-if="ruleForm.TaskType==2">
                         <el-input v-model="ruleForm.ApiAuthValue" placeholder="请输入API授权值"></el-input>
                     </el-form-item>
+                    <el-form-item label="API超时时间"
+                                  prop="ApiTimeOut"
+                                  v-if="ruleForm.TaskType==2">
+                        <el-input v-model="ruleForm.ApiTimeOut" placeholder="请输入API超时时间(单位:秒),默认100秒" type="number"></el-input>
+                    </el-form-item>
                     <el-form-item label="参数(API和DLL通用)"
                                   prop="ApiParameter"
                                   :rules="rules.ApiParameter">
@@ -176,7 +181,13 @@
                     </el-table-column>
                     <el-table-column prop="EndDate" label="结束时间" width="180" align="center">
                     </el-table-column>
-                    <el-table-column prop="Msg" label="消息" align="center" :show-overflow-tooltip="true">
+                    <el-table-column prop="Msg" label="消息" align="center">
+                        <template slot-scope="scope">
+                            <el-tooltip placement="top">
+                                <div v-html="scope.row.Msg" slot="content"></div>
+                                <div style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis">{{scope.row.Msg}}</div>
+                             </el-tooltip>
+                        </template>
                     </el-table-column>
                 </el-table>
             </el-col>
@@ -203,6 +214,7 @@
             data() {
                 return {
                     activeIndex: '1',
+                    tableheight: 200,
                     tableData:[],
                     dialogFormVisible: false,
                     dialogRecordVisible: false,
@@ -258,10 +270,17 @@
                 }
             },
             mounted: function () {
+                this.$nextTick(function () {
+                    this.tableheight = window.innerHeight - 190;
+                });
+               
                 this.OnLoadJobs();
                 this.onLoadClassJobs();
             },
             methods: {
+                FormatProgress(percentage) {
+                    return '100';
+                },
                 OnLoadJobs() {
                     var that = this;
                     axios("?handler=SelectJob").then(function (res) {
@@ -488,6 +507,7 @@
                         ApiAuthKey: '',
                         ApiAuthValue: '',
                         ApiParameter: '',
+                        ApiTimeOut:null,
                         DllClassName: '',
                         DllActionName: '',
                         changetime: '',

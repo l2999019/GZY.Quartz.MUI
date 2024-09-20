@@ -1,4 +1,5 @@
-﻿using GZY.Quartz.MUI.Extensions;
+﻿using GZY.Quartz.MUI.Config;
+using GZY.Quartz.MUI.Extensions;
 using GZY.Quartz.MUI.Model;
 using GZY.Quartz.MUI.Service;
 using Microsoft.Extensions.Logging;
@@ -19,18 +20,20 @@ namespace GZY.Quartz.MUI.BaseJobs
         readonly IHttpClientFactory httpClientFactory;
         private IQuartzService _quartzService;
         private IQuartzLogService _quartzLogService;
+        private QuartzMUIOptions _quartzMUIOptions;
         private ILogger<HttpResultfulJob> _logger { get; set; }
         /// <summary>
         /// 2020.05.31增加构造方法
         /// </summary>
         /// <param name="serviceProvider"></param>
         /// <param name="httpClientFactory"></param>
-        public HttpResultfulJob(IHttpClientFactory httpClientFactory, IQuartzService quartzService, IQuartzLogService quartzLogService, ILogger<HttpResultfulJob> logger)
+        public HttpResultfulJob(IHttpClientFactory httpClientFactory, IQuartzService quartzService, IQuartzLogService quartzLogService, ILogger<HttpResultfulJob> logger, QuartzMUIOptions quartzMUIOptions)
         {
             this.httpClientFactory = httpClientFactory;
             this._quartzLogService = quartzLogService;
             this._quartzService = quartzService;
             this._logger = logger;
+            this._quartzMUIOptions = quartzMUIOptions;
             //serviceProvider.GetService()
         }
         public async Task Execute(IJobExecutionContext context)
@@ -49,11 +52,17 @@ namespace GZY.Quartz.MUI.BaseJobs
             if (taskOptions == null)
             {
                 _logger.LogError($"组别:{trigger.Group},名称:{trigger.Name},的作业未找到,可能已被移除");
-               // FileHelper.WriteFile(FileQuartz.LogPath + trigger.Group, $"{trigger.Name}.txt", "未到找作业或可能被移除", true);
+                // FileHelper.WriteFile(FileQuartz.LogPath + trigger.Group, $"{trigger.Name}.txt", "未到找作业或可能被移除", true);
                 return;
             }
-            _logger.LogInformation($"组别:{trigger.Group},名称:{trigger.Name},的作业开始执行,时间:{DateTime.Now.ToString("yyyy-MM-dd HH:mm:sss")}");
-            Console.WriteLine($"作业[{taskOptions.TaskName}]开始:{ DateTime.Now.ToString("yyyy-MM-dd HH:mm:sss")}");
+            if (_quartzMUIOptions.ShowConsoleLog)
+            {
+                if (_quartzMUIOptions.ShowConsoleLog)
+                {
+                    _logger.LogInformation($"组别:{trigger.Group},名称:{trigger.Name},的作业开始执行,时间:{DateTime.Now.ToString("yyyy-MM-dd HH:mm:sss")}");
+                    Console.WriteLine($"作业[{taskOptions.TaskName}]开始:{DateTime.Now.ToString("yyyy-MM-dd HH:mm:sss")}");
+                }
+            }
             tab_quarz_tasklog tab_Quarz_Tasklog = new tab_quarz_tasklog() { TaskName = taskOptions.TaskName, GroupName = taskOptions.GroupName, BeginDate = DateTime.Now };
             if (string.IsNullOrEmpty(taskOptions.ApiUrl) || taskOptions.ApiUrl == "/")
             {
@@ -75,7 +84,7 @@ namespace GZY.Quartz.MUI.BaseJobs
                     taskOptions.ApiRequestType?.ToLower() == "get" ? HttpMethod.Get : HttpMethod.Post,
                     taskOptions.ApiUrl,
                     taskOptions.ApiParameter,
-                    header);
+                    header, taskOptions.ApiTimeOut ?? _quartzMUIOptions.DefaultApiTimeOut);
             }
             catch (Exception ex)
             {
@@ -92,7 +101,10 @@ namespace GZY.Quartz.MUI.BaseJobs
             catch (Exception)
             {
             }
-            Console.WriteLine(trigger.FullName + " " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:sss") + " " + httpMessage);
+            if (_quartzMUIOptions.ShowConsoleLog)
+            {
+                Console.WriteLine(trigger.FullName + " " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:sss") + " " + httpMessage);
+            }
             return;
         }
     }

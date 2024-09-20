@@ -4,22 +4,23 @@
 	<TargetFrameworks>net8.0;net6.0;net5.0</TargetFrameworks>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
-    <Version>2.5</Version>
+    <Version>2.6</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/l2999019/GZY.Quartz.MUI.git</RepositoryUrl>
     <PackageProjectUrl>https://github.com/l2999019/GZY.Quartz.MUI</PackageProjectUrl>
     <Description>
       基于Quartz定时任务的UI管理界面
-      2.5
-      修复一些异常问题,添加UI界面前端分组,修复8.0后本地日志存储地址异常的问题
+      2.6
+      修复数据库存储时,查询最后一次执行时间异常的问题.
+      根据.net版本统一类库版本,修复因为EF类库版本导致报错的问题
     </Description>
     <Copyright>GuZhenYin</Copyright>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Authors>GuZhenYin</Authors>
     <PackageIcon>8P)KFD9L[JN90ZZIV]B2JRK.png</PackageIcon>
     <PackageIconUrl />
-    <AssemblyVersion>2.4.0</AssemblyVersion>
-    <FileVersion>2.4.0</FileVersion>
+    <AssemblyVersion>2.6.0</AssemblyVersion>
+    <FileVersion>2.6.0</FileVersion>
     <SignAssembly>False</SignAssembly>
     <PackageReleaseNotes></PackageReleaseNotes>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
@@ -64,6 +65,12 @@
   <ItemGroup>
     <Resource Include="8P)KFD9L[JN90ZZIV]B2JRK.png">
       <Pack>True</Pack>
+      <Content>
+        基于Quartz定时任务的UI管理界面
+        2.6
+        修复数据库存储时,查询最后一次执行时间异常的问题.
+        根据.net版本统一类库版本,修复因为EF类库版本导致报错的问题
+      </Content>
       <PackagePath>\</PackagePath>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

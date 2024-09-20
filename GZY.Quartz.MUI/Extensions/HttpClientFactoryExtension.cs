@@ -10,9 +10,16 @@ namespace GZY.Quartz.MUI.Extensions
 {
     public static class HttpClientFactoryExtension
     {
-        public static async Task<string> HttpSendAsync(this IHttpClientFactory httpClientFactory, HttpMethod method, string url,string parmet, Dictionary<string, string> headers = null)
+        public static async Task<string> HttpSendAsync(this IHttpClientFactory httpClientFactory, 
+            HttpMethod method, 
+            string url,
+            string parmet, 
+            Dictionary<string, string> headers = null,
+            int ApiTimeout = 100
+            )
         {
             var client = httpClientFactory.CreateClient();
+            client.Timeout = TimeSpan.FromSeconds(ApiTimeout);
             var postContent = new StringContent(parmet, Encoding.UTF8, "application/json");
            // var content = new StringContent("");
             // content.Headers.ContentType = new MediaTypeHeaderValue(contentType);

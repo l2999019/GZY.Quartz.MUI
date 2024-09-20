@@ -53,7 +53,7 @@ namespace GZY.Quartz.MUI.Service
                 var list = _quartzFileHelper.GetJobsLog();
                 int total = list.Where(a => a.TaskName == taskName
             && a.GroupName == groupName).Count();
-                var date = list.Where(a => a.TaskName == taskName && a.GroupName == groupName).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                var date = list.Where(a => a.TaskName == taskName && a.GroupName == groupName).OrderByDescending(a => a.BeginDate).Skip((page - 1) * pageSize).Take(pageSize).ToList();
                 ResultData<tab_quarz_tasklog> resultData = new ResultData<tab_quarz_tasklog>() { total = total, data = date };
                 return resultData;
 

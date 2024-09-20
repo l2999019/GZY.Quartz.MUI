@@ -1,5 +1,6 @@
 ﻿using GZY.Quartz.MUI.BaseJobs;
 using GZY.Quartz.MUI.BaseService;
+using GZY.Quartz.MUI.Config;
 using GZY.Quartz.MUI.EFContext;
 using GZY.Quartz.MUI.Middleware;
 using GZY.Quartz.MUI.Service;
@@ -24,11 +25,20 @@ namespace GZY.Quartz.MUI.Extensions
     {
 
 
-        public static IServiceCollection AddQuartzUI(this IServiceCollection services, DbContextOptions<QuarzEFContext> option = null)
+        public static IServiceCollection AddQuartzUI(this IServiceCollection services, DbContextOptions<QuarzEFContext> option = null, QuartzMUIOptions quartzMUIOptions = null)
         {
             services.AddRazorPages();
             services.AddHttpClient();
             services.AddHttpContextAccessor();
+            if(quartzMUIOptions==null)
+            {
+                services.AddSingleton<QuartzMUIOptions>(a => { return new QuartzMUIOptions(); });
+
+            }
+            else
+            {
+                services.AddSingleton<QuartzMUIOptions>(a => { return quartzMUIOptions; });
+            }
             if (option != null)
             {
 
