@@ -40,14 +40,21 @@ namespace GZY.Quartz.MUI.Tools
         /// </summary>
         /// <param name="schedulerFactory"></param>
         /// <returns></returns>
-        public async Task<List<tab_quarz_task>> GetJobs()
+        public async Task<List<tab_quarz_task>> GetJobs(string TaskOrGroupName=null)
         {
             List<tab_quarz_task> list = new List<tab_quarz_task>();
             try
             {
                 IScheduler _scheduler = await _schedulerFactory.GetScheduler();
                 var groups = await _scheduler.GetJobGroupNames();
-                list = _quartzService.GetJobs(a=>1==1).Result;
+                if (!string.IsNullOrEmpty(TaskOrGroupName))
+                {
+                    list = _quartzService.GetJobs(a => a.TaskName.Contains(TaskOrGroupName) || a.GroupName.Contains(TaskOrGroupName)).Result;
+                }
+                else
+                {
+                    list = _quartzService.GetJobs(a => 1 == 1).Result;
+                }
                 foreach (var groupName in groups)
                 {
                     foreach (var jobKey in await _scheduler.GetJobKeys(GroupMatcher<JobKey>.GroupEquals(groupName)))
@@ -131,18 +138,18 @@ namespace GZY.Quartz.MUI.Tools
                        .WithCronSchedule(item.Interval)
                        .Build();
 
-                  
+
 
                     if (_jobFactory != null)
                     {
                         scheduler.JobFactory = _jobFactory;
                     }
-                    
-                    
+
+
                     if (item.Status == (int)JobState.开启)
                     {
                         await scheduler.ScheduleJob(job, trigger);
-                        await _quartzLogService.AddLog(new tab_quarz_tasklog() { TaskName = item.TaskName, GroupName = item.GroupName,BeginDate=DateTime.Now, Msg = $"任务初始化启动成功:{item.Status}" });
+                        await _quartzLogService.AddLog(new tab_quarz_tasklog() { TaskName = item.TaskName, GroupName = item.GroupName, BeginDate = DateTime.Now, Msg = $"任务初始化启动成功:{item.Status}" });
                     }
                     else
                     {
@@ -158,10 +165,10 @@ namespace GZY.Quartz.MUI.Tools
                     await _quartzLogService.AddLog(new tab_quarz_tasklog() { TaskName = item.TaskName, GroupName = item.GroupName, Msg = $"任务初始化未启动,出现异常,异常信息{ex.Message}" });
                     continue;
                 }
-                await scheduler.Start();
             }
 
 
+            await scheduler.Start();
 
 
         }
@@ -558,9 +565,6 @@ namespace GZY.Quartz.MUI.Tools
                 return new ResultQuartzData { status = false, message = ex.Message };
             }
         }
-
-
-
 
     }
 }

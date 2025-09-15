@@ -62,6 +62,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\vue\echarts.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="8P%29KFD9L[JN90ZZIV]B2JRK.png" />
   </ItemGroup>
 

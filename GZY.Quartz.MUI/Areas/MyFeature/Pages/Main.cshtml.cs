@@ -16,10 +16,12 @@ namespace GZY.Quartz.MUI.Areas.MyFeature.Pages
     {
         private IQuartzHandle _quartzHandle;
         private IQuartzLogService _logService;
-        public MainModel(IQuartzHandle quartzHandle, IQuartzLogService logService)
+        private IQuartzService _quartzService;
+        public MainModel(IQuartzHandle quartzHandle, IQuartzLogService logService, IQuartzService quartzService)
         {
             _quartzHandle = quartzHandle;
             _logService = logService;
+            _quartzService = quartzService;
         }
         [BindProperty]
         public tab_quarz_task Input { get; set; }
@@ -27,9 +29,9 @@ namespace GZY.Quartz.MUI.Areas.MyFeature.Pages
         /// 获取任务列表
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> OnGetSelectJob()
+        public async Task<IActionResult> OnGetSelectJob(string taskOrGroupName)
         {
-            var jobs = await _quartzHandle.GetJobs();
+            var jobs = await _quartzHandle.GetJobs(taskOrGroupName);
 
             return new JsonDataResult(jobs);
         }
@@ -110,6 +112,41 @@ namespace GZY.Quartz.MUI.Areas.MyFeature.Pages
         public IActionResult OnGetSelectClassJob()
         {
             var date = ClassJobsFactory.ClassJobs;
+
+            return new JsonDataResult(date);
+        }
+
+        public IActionResult OnGetDashboardInfo()
+        {
+            var date = _quartzService.GetDashboardInfo().Result;
+
+            return new JsonDataResult(date);
+        }
+
+        public IActionResult OnGetTrendInfo()
+        {
+            var date = _quartzService.GetTrendInfo().Result;
+
+            return new JsonDataResult(date);
+        }
+
+        public IActionResult OnGetFailureRateInfo()
+        {
+            var date = _quartzService.GetFailureRate().Result;
+
+            return new JsonDataResult(date);
+        }
+
+        public IActionResult OnGetErrorTop10()
+        {
+            var date = _quartzService.GetErrorTop10().Result;
+
+            return new JsonDataResult(date);
+        }
+
+        public IActionResult OnGetDurationDistribution()
+        {
+            var date = _quartzService.GetDurationDistribution().Result;
 
             return new JsonDataResult(date);
         }

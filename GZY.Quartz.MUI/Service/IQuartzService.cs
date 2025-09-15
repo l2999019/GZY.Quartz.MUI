@@ -37,6 +37,16 @@ namespace GZY.Quartz.MUI.Service
 
         Task<ResultQuartzData> Update(tab_quarz_task model);
 
-      
+
+        Task<ResultDashboardData> GetDashboardInfo();
+
+        Task<List<dynamic>> GetTrendInfo();
+
+
+        Task<List<dynamic>> GetFailureRate();
+
+        Task<List<dynamic>> GetErrorTop10();
+
+        Task<dynamic> GetDurationDistribution();
     }
 }

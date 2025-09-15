@@ -9,7 +9,7 @@ namespace GZY.Quartz.MUI.Tools
     public interface IQuartzHandle
     {
         Task<ResultQuartzData> AddJob(tab_quarz_task taskOptions);
-        Task<List<tab_quarz_task>> GetJobs();
+        Task<List<tab_quarz_task>> GetJobs(string TaskOrGroupName=null);
         Task InitJobs();
         Task<ResultQuartzData> IsQuartzJob(string taskName, string groupName);
         ResultQuartzData IsValidExpression(string cronExpression);

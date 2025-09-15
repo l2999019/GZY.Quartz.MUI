@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Quartz;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace GZY.Quartz.MUI.Tools
         private  string _rootPath { get; set; }
 
         private  string _logPath { get; set; }
+        private static readonly ConcurrentDictionary<string, object> _fileLocks = new();
 
         public  string QuartzSettingsFolder { get; set; } = "QuartzSettings";
 
@@ -145,8 +147,10 @@ namespace GZY.Quartz.MUI.Tools
             path = path.ReplacePath();
             if (!File.Exists(path))
                 return null;
+            var listlogs = new List<string>();
 
-            var listlogs = ReadPageLine(path, pageSize, 5000, true).ToList();
+            listlogs = ReadPageLine(path, pageSize, 5000, true).ToList();
+
             List<tab_quarz_tasklog> listtasklogs = new List<tab_quarz_tasklog>();
             foreach (var item in listlogs)
             {
@@ -178,23 +182,32 @@ namespace GZY.Quartz.MUI.Tools
                 page = 1;
             }
             fullPath = fullPath.ReplacePath();
-            var lines = File.ReadLines(fullPath, Encoding.UTF8);
-            if (seekEnd)
+            fullPath= Path.GetFullPath(fullPath);
+            var fileLock = _fileLocks.GetOrAdd(fullPath, _ => new object());
+            lock (fileLock)
             {
-                int lineCount = lines.Count();
-                int linPageCount = (int)Math.Ceiling(lineCount / (pageSize * 1.00));
-                //超过总页数，不处理
-                if (page > linPageCount)
+                var lines = File.ReadLines(fullPath, Encoding.UTF8);
+                if (seekEnd)
                 {
-                    page = 0;
-                    pageSize = 0;
-                }
-                else if (page == linPageCount)//最后一页，取最后一页剩下所有的行
-                {
-                    pageSize = lineCount - (page - 1) * pageSize;
-                    if (page == 1)
+                    int lineCount = lines.Count();
+                    int linPageCount = (int)Math.Ceiling(lineCount / (pageSize * 1.00));
+                    //超过总页数，不处理
+                    if (page > linPageCount)
                     {
                         page = 0;
+                        pageSize = 0;
+                    }
+                    else if (page == linPageCount)//最后一页，取最后一页剩下所有的行
+                    {
+                        pageSize = lineCount - (page - 1) * pageSize;
+                        if (page == 1)
+                        {
+                            page = 0;
+                        }
+                        else
+                        {
+                            page = lines.Count() - page * pageSize;
+                        }
                     }
                     else
                     {
@@ -203,23 +216,19 @@ namespace GZY.Quartz.MUI.Tools
                 }
                 else
                 {
-                    page = lines.Count() - page * pageSize;
+                    page = (page - 1) * pageSize;
                 }
-            }
-            else
-            {
-                page = (page - 1) * pageSize;
-            }
-            lines = lines.Skip(page).Take(pageSize);
+                lines = lines.Skip(page).Take(pageSize);
 
-            var enumerator = lines.GetEnumerator();
-            int count = 1;
-            while (enumerator.MoveNext() || count <= pageSize)
-            {
-                yield return enumerator.Current;
-                count++;
+                var enumerator = lines.GetEnumerator();
+                int count = 1;
+                while (enumerator.MoveNext() || count <= pageSize)
+                {
+                    yield return enumerator.Current;
+                    count++;
+                }
+                enumerator.Dispose();
             }
-            enumerator.Dispose();
         }
 
         public  string ReadFile(string path)
@@ -227,9 +236,15 @@ namespace GZY.Quartz.MUI.Tools
             path = path.ReplacePath();
             if (!File.Exists(path))
                 return "";
-            using (StreamReader stream = new StreamReader(path))
+
+            path = Path.GetFullPath(path);
+            var fileLock = _fileLocks.GetOrAdd(path, _ => new object());
+            lock (fileLock) //加锁顺序执行.
             {
-                return stream.ReadToEnd(); // 读取文件
+                using (StreamReader stream = new StreamReader(path))
+                {
+                    return stream.ReadToEnd(); // 读取文件
+                }
             }
         }
 
@@ -248,18 +263,23 @@ namespace GZY.Quartz.MUI.Tools
             {
                 Directory.CreateDirectory(path);
             }
-            using (FileStream stream = File.Open(path + fileName, FileMode.OpenOrCreate, FileAccess.Write))
+            var pathfile = Path.GetFullPath(path + fileName);
+            var fileLock = _fileLocks.GetOrAdd(pathfile, _ => new object());
+            lock (fileLock) //按文件加锁顺序执行.
             {
-                byte[] by = Encoding.Default.GetBytes(content);
-                if (appendToLast)
+                using (FileStream stream = File.Open(pathfile, FileMode.OpenOrCreate, FileAccess.Write))
                 {
-                    stream.Position = stream.Length;
+                    byte[] by = Encoding.Default.GetBytes(content);
+                    if (appendToLast)
+                    {
+                        stream.Position = stream.Length;
+                    }
+                    else
+                    {
+                        stream.SetLength(0);
+                    }
+                    stream.Write(by, 0, by.Length);
                 }
-                else
-                {
-                    stream.SetLength(0);
-                }
-                stream.Write(by, 0, by.Length);
             }
         }
     }

@@ -4,76 +4,160 @@
 @{
     Layout = "_JavasCriptLayout";
 }
+<style>
+   
+    .card {
+        flex: 1;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        padding: 20px;
+        text-align: center;
+    }
+
+        .card h2 {
+            margin: 0;
+            font-size: 28px;
+            color: #333;
+        }
+
+        .card p {
+            margin: 5px 0 0;
+            color: #666;
+            font-size: 14px;
+        }
+    .chart {
+        height: 350px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        padding: 10px;
+    }
+
+</style>
 <div id="main">
     <el-container>
         <el-header style="padding: 0;">
             <!-- 头部样式 -->
             <el-menu :default-active="activeIndex" mode="horizontal" background-color="#fcfcfc">
-                <el-menu-item index="1">任务调度</el-menu-item>
+                <el-menu-item index="1" @@click="onTabClick(1)"><i class="el-icon-menu"></i><span>任务调度</span></el-menu-item>
+                <el-menu-item index="2" @@click="onTabClick(2)"><i class="el-icon-pie-chart"></i><span>任务仪表盘</span></el-menu-item>
             </el-menu>
         </el-header>
-        <el-main>
-            <el-row type="flex" align="middle">
-                <el-col :span="8">
-                    <h4>后台任务列表</h4>
-                </el-col>
-                <el-col :span="16" style="text-align: right;">
-                    <el-button type="primary" size="mini" icon="el-icon-plus" @@click="handleXJRW">新建任务</el-button>
-                    <el-button type="success" size="mini" icon="el-icon-video-pause" @@click="handleZTRW">暂停任务</el-button>
-                    <el-button type="warning" size="mini" icon="el-icon-open" @@click="handleKQRW">开启任务</el-button>
-                    <el-button type="danger" size="mini" icon="el-icon-video-play" @@click="handleLJZX">立即执行</el-button>
-                    <el-button type="info" size="mini" icon="el-icon-edit" @@click="handleXGRW">修改任务</el-button>
-                    <el-button type="danger" size="mini" icon="el-icon-delete-solid" @@click="OnDeleteJobs">删除任务</el-button>
-                    <el-button type="default" size="mini" icon="el-icon-refresh" @@click="OnLoadJobs">刷新数据</el-button>
-                </el-col>
-            </el-row>
-            <el-row type="flex" align="middle">
-                <el-col :span="24" style="padding: 10px 0 0 0;" >
-                    <el-table ref="tb" :data="tableData" border stripe style="width: 100%;" :height="tableheight" highlight-current-row
-                              :default-sort="{prop: 'GroupName', order: 'ascending'}" :header-cell-style="{backgroundColor:'#F5F7FA',color:'#000000'}" @@current-change="handleSelect">
-                        <el-table-column type="index" width="50" label="序号" align="center">
-                        </el-table-column>
-                        <el-table-column prop="TaskName" label="任务" width="180" align="center">
-                        </el-table-column>
-                        <el-table-column prop="GroupName" label="分组" width="180" align="center" sortable>
-                        </el-table-column>
-                        <el-table-column prop="Interval" label="间隔时间" align="center">
-                        </el-table-column>
-                        <el-table-column prop="ApiUrl" label="ApiUrl" align="center">
-                        </el-table-column>
-                        <el-table-column prop="Status" width="70" label="运行状态" align="center" sortable>
-                            <template slot-scope="scope">
-                                <el-tag type="info" disable-transitions v-if="scope.row.Status==4">
-                                    {{scope.row.Status|formatStatues}}
-                                </el-tag>
-                                <el-tag type="danger" disable-transitions v-if="scope.row.Status==5">
-                                    {{scope.row.Status|formatStatues}}
-                                </el-tag>
-                                <el-tag type="success" disable-transitions v-if="scope.row.Status==6">
-                                    {{scope.row.Status|formatStatues}}
-                                </el-tag>
-                                <el-tag type="primary" disable-transitions v-if="scope.row.Status==7">
-                                    {{scope.row.Status|formatStatues}}
-                                </el-tag>
-                            </template>
-                        </el-table-column>
-                        <el-table-column prop="LastRunTime" label="最近一次运行时间" align="center">
-                        </el-table-column>
-                        <el-table-column prop="Describe" label="任务描述" :show-overflow-tooltip="true" align="center">
-                        </el-table-column>
-                        <el-table-column prop="TaskType" label="任务类型" width="120" align="center">
-                            <template slot-scope="scope">
-                                {{scope.row.TaskType==1?'DLL':'API'}}
-                            </template>
-                        </el-table-column>
-                        <el-table-column label="操作" align="center">
-                            <template slot-scope="scope">
-                                <el-button size="mini" type="default" @@click="handleCZ(scope.$index, scope.row)">执行记录</el-button>
-                            </template>
-                        </el-table-column>
-                    </el-table>
-                </el-col>
-            </el-row>
+        <el-main style="padding: 20px 0px 0px 0px;">
+            <el-card v-show="cur==1">
+                <el-row type="flex" align="middle">
+                    <el-col :span="8">
+                        <h4>后台任务列表</h4>
+                    </el-col>
+                    <el-col :span="16" style="text-align: right;">
+                        <el-input style="width:300px" size="mini" placeholder="请输入任务名/分组名" v-model="taskOrGroupName"></el-input>
+                        <el-button round type="primary" size="mini" icon="el-icon-search" @@click="OnLoadJobs">搜索</el-button>
+                        <el-button type="primary" size="mini" icon="el-icon-plus" @@click="handleXJRW">新建任务</el-button>
+                        <el-button type="success" size="mini" icon="el-icon-video-pause" @@click="handleZTRW">暂停任务</el-button>
+                        <el-button type="warning" size="mini" icon="el-icon-open" @@click="handleKQRW">开启任务</el-button>
+                        <el-button type="danger" size="mini" icon="el-icon-video-play" @@click="handleLJZX">立即执行</el-button>
+                        <el-button type="info" size="mini" icon="el-icon-edit" @@click="handleXGRW">修改任务</el-button>
+                        <el-button type="danger" size="mini" icon="el-icon-delete-solid" @@click="OnDeleteJobs">删除任务</el-button>
+                        <el-button type="default" size="mini" icon="el-icon-refresh" @@click="OnLoadJobs">刷新数据</el-button>
+                    </el-col>
+                </el-row>
+                <el-row type="flex" align="middle">
+                    <el-col :span="24" style="padding: 10px 0 0 0;">
+                        <el-table ref="tb" :data="tableData" border stripe style="width: 100%;" :height="tableheight" highlight-current-row
+                                  :default-sort="{prop: 'GroupName', order: 'ascending'}" :header-cell-style="{backgroundColor:'#F5F7FA',color:'#000000'}" @@current-change="handleSelect">
+                            <el-table-column type="index" width="50" label="序号" align="center">
+                            </el-table-column>
+                            <el-table-column prop="TaskName" label="任务" width="180" align="center">
+                            </el-table-column>
+                            <el-table-column prop="GroupName" label="分组" width="180" align="center" sortable>
+                            </el-table-column>
+                            <el-table-column prop="Interval" label="间隔时间" align="center">
+                            </el-table-column>
+                            <el-table-column prop="ApiUrl" label="ApiUrl" align="center">
+                            </el-table-column>
+                            <el-table-column prop="Status" width="120" label="运行状态" align="center" sortable>
+                                <template slot-scope="scope">
+                                    <el-tag type="info" disable-transitions v-if="scope.row.Status==4">
+                                        {{scope.row.Status|formatStatues}}
+                                    </el-tag>
+                                    <el-tag type="danger" disable-transitions v-if="scope.row.Status==5">
+                                        {{scope.row.Status|formatStatues}}
+                                    </el-tag>
+                                    <el-tag type="success" disable-transitions v-if="scope.row.Status==6">
+                                        {{scope.row.Status|formatStatues}}
+                                    </el-tag>
+                                    <el-tag type="primary" disable-transitions v-if="scope.row.Status==7">
+                                        {{scope.row.Status|formatStatues}}
+                                    </el-tag>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="LastRunTime" label="最近一次运行时间" align="center">
+                            </el-table-column>
+                            <el-table-column prop="Describe" label="任务描述" :show-overflow-tooltip="true" align="center">
+                            </el-table-column>
+                            <el-table-column prop="TaskType" label="任务类型" width="120" align="center">
+                                <template slot-scope="scope">
+                                    {{scope.row.TaskType==1?'DLL':'API'}}
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="操作" align="center">
+                                <template slot-scope="scope">
+                                    <el-button size="mini" type="default" @@click="handleCZ(scope.$index, scope.row)">执行记录</el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </el-col>
+                </el-row>
+           </el-card>
+            <el-card v-show="cur==2" >
+                <el-row :gutter="20">
+                    <el-col :span="6">
+                       <el-card class="card">
+                            <h2>{{dashboardData.JobCounts}}</h2><p>今日执行总次数</p>
+                       </el-card>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-card class="card">
+                            <h2 style="color:red">{{dashboardData.ErrorCounts.toFixed(2)}}%</h2><p>失败率</p>
+                        </el-card>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-card class="card">
+                            <h2>{{dashboardData.AverageTime.toFixed(2)}}ms</h2><p>平均耗时</p>
+                        </el-card>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-card class="card">
+                            <h2>{{dashboardData.RunJobs}}</h2><p>运行任务数/总任务数</p>
+                        </el-card>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20" style="margin-top:20px" >
+                    <el-col :span="12">
+                       <el-card>
+                           <div id="execTrend" class="chart"></div>
+                       </el-card>
+                    </el-col>
+                     <el-col :span="12">
+                       <el-card>
+                           <div id="failureRate" class="chart"></div>
+                       </el-card>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20" style="margin-top:20px">
+                    <el-col :span="12">
+                        <el-card>
+                            <div id="errorTop10" class="chart"></div>
+                        </el-card>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-card>
+                            <div id="durationDist" class="chart"></div>
+                        </el-card>
+                    </el-col>
+                </el-row>
+            </el-card>
         </el-main>
     </el-container>
     <el-dialog :title="title" :visible.sync="dialogFormVisible">
@@ -213,12 +297,14 @@
             el: "#main",
             data() {
                 return {
+                    cur:1,
                     activeIndex: '1',
                     tableheight: 200,
                     tableData:[],
                     dialogFormVisible: false,
                     dialogRecordVisible: false,
                     ruleForm: this.initTaskEntity(),
+                    taskOrGroupName:null,
                     rules: {
                         TaskName: [
                             { required: true, message: '请输入任务名称', trigger: 'blur' }
@@ -266,7 +352,10 @@
                     isedit: false,
                     btnText: '立即创建',
                     recordData:[],
-                    classjobs:[]
+                    classjobs:[],
+                    dashboardData:{JobCounts:0,ErrorCounts:0,AverageTime:0,RunJobs:""},
+                    execTrend:null,
+                    failureRate:null
                 }
             },
             mounted: function () {
@@ -276,14 +365,20 @@
                
                 this.OnLoadJobs();
                 this.onLoadClassJobs();
+               // this.execTrend = echarts.init(document.getElementById("execTrend"));
+                //this.failureRate = echarts.init(document.getElementById("failureRate"));
+               //this.cur =1;
             },
             methods: {
                 FormatProgress(percentage) {
                     return '100';
                 },
                 OnLoadJobs() {
+                     const params = {
+                        taskOrGroupName: this.taskOrGroupName
+                     };
                     var that = this;
-                    axios("?handler=SelectJob").then(function (res) {
+                    axios.get("?handler=SelectJob", { params }).then(function (res) {
                         that.tableData = res.data;
                     });
                 },
@@ -292,6 +387,166 @@
                     axios("?handler=SelectClassJob").then(function (res) {
                         that.classjobs = res.data;
                     });
+                },
+                onLoadEcharts() {
+                    var that = this;
+                    axios("?handler=DashboardInfo").then(function (res) {
+                        that.dashboardData = res.data;
+                    });
+
+                    axios("?handler=TrendInfo").then(function (res) {
+                      const data = res.data;
+
+                      // 生成 0-23 小时完整刻度
+                        const hours = Array.from({ length: 24 }, (_, i) => i);
+                        const successCounts = hours.map(h => {
+                          const item = data.find(d => d.Hour === h);
+                          return item ? item.SuccessCount : 0;
+                        });
+                        const failCounts = hours.map(h => {
+                          const item = data.find(d => d.Hour === h);
+                          return item ? item.FailCount : 0;
+                        });
+                        const avgDurations = hours.map(h => {
+                          const item = data.find(d => d.Hour === h);
+                          return item ? Number(item.AvgDuration.toFixed(2)) : 0;
+                        });
+
+                      const option = {
+                          title: { text: '当天任务执行趋势 (按小时)', left: 'center' },
+                          tooltip: { trigger: "axis" },
+                          legend: { data: ["成功次数", "失败次数", "平均耗时(ms)"] },
+                          xAxis: { type: "category", data: hours.map(h => h + "点") },
+                          yAxis: [
+                            { type: "value", name: "次数" },
+                            { type: "value", name: "耗时(ms)" }
+                          ],
+                          series: [
+                            {
+                              name: "成功次数",
+                              type: "bar",
+                              data: successCounts,
+                              itemStyle: { color: "#4caf50" }
+                            },
+                            {
+                              name: "失败次数",
+                              type: "bar",
+                              data: failCounts,
+                              itemStyle: { color: "#f44336" }
+                            },
+                            {
+                              name: "平均耗时(ms)",
+                              type: "line",
+                              yAxisIndex: 1,
+                              data: avgDurations,
+                              smooth: true,
+                              itemStyle: { color: "#2196f3" }
+                            }
+                          ]
+                        };
+                        var execTrend = echarts.init(document.getElementById('execTrend'));
+                        execTrend.setOption(option);
+                    });
+                    axios("?handler=FailureRateInfo").then(function (res) {
+                        const data = res.data;
+                        const taskNames = data.map(d => d.TaskName);
+                        const rates = data.map(d => d.FailRate);
+                        const option = {
+                          title: { text: '最近任务执行情况', left: 'center' },
+                          tooltip: {
+                            trigger: "axis",
+                            formatter: (params) => {
+                              const item = params[0];
+                              return `${item.axisValue}<br/>失败率: ${item.data}%`;
+                            }
+                          },
+                          xAxis: {
+                            type: "category",
+                            data: taskNames,
+                                axisLabel: { rotate: 60,
+                                             formatter: function (value) {
+                                                return value.length > 10 ? value.slice(0, 10) + "…" : value;
+                                            } 
+                                } // 任务名长时旋转避免重叠
+                          },
+                          tooltip: {
+                            trigger: "axis",
+                            formatter: function(params) {
+                              let taskName = params[0].axisValue; // 完整任务名
+                              let failRate = params[0].data;
+                              return `${taskName}<br/>失败率: ${failRate}%`;
+                            }
+                          },
+                          yAxis: {
+                            type: "value",
+                            name: "失败率(%)",
+                            min: 0,
+                            max: 100
+                          },
+                          series: [
+                            {
+                              name: "失败率",
+                              type: "bar",
+                              data: rates,
+                              itemStyle: { color: "#f44336" }
+                            }
+                          ]
+                        };
+                       var failureRate = echarts.init(document.getElementById('failureRate'));
+                       failureRate.setOption(option);
+                      });
+                    axios("?handler=ErrorTop10").then(function (res) {
+                        const data = res.data || [];
+                        const taskNames = data.map(x => x.TaskName);
+                        const errorCounts = data.map(x => x.ErrorCount);
+                        const option ={
+                          title: { text: "异常任务 Top10", left: "center" },
+                          tooltip: { trigger: "axis" },
+                          xAxis: { type: "value" },
+                          yAxis: {
+                            type: "category",
+                            data: taskNames,
+                            inverse: true,
+                            axisLabel: { interval: 0, formatter: val => val.length > 10 ? val.substring(0,10) + "..." : val }
+                          },
+                          series: [{
+                            type: "bar",
+                            data: errorCounts,
+                            itemStyle: { color: "#e74c3c" }
+                          }]
+                        };
+                       var errorTop10 = echarts.init(document.getElementById('errorTop10'));
+                       errorTop10.setOption(option);
+                      });
+                    axios("?handler=DurationDistribution").then(function (res) {
+                        const data = res.data || {};
+                        const categories = ["<100ms", "100-500ms", "500-1000ms", ">1000ms"];
+                        const values = [data.Fast, data.Normal, data.Slow, data.VerySlow];
+                        const option ={
+                                          title: { text: "任务耗时分布", left: "center" },
+                                          tooltip: { trigger: "axis" },
+                                          xAxis: { type: "category", data: categories },
+                                          yAxis: { type: "value" },
+                                          series: [{
+                                            type: "bar",
+                                            data: values,
+                                            itemStyle: { color: "#3498db" }
+                                          }]
+                                        }
+                       var durationDist = echarts.init(document.getElementById('durationDist'));
+                       durationDist.setOption(option);
+                      });
+                },
+                onTabClick(curvalue){
+                    this.cur=curvalue;
+                    if(this.cur==2)
+                    {
+                        this.$nextTick(()=>{
+
+                        this.onLoadEcharts();
+                        })
+                        
+                    }
                 },
                 handleXJRW() {
                     this.title = "新建任务";

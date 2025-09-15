@@ -61,16 +61,18 @@ namespace GZY.Quartz.MUI.BaseJobs
                 _logger.LogInformation($"组别:{trigger.Group},名称:{trigger.Name},的作业开始执行,时间:{DateTime.Now.ToString("yyyy-MM-dd HH:mm:sss")}");
                 Console.WriteLine($"作业[{taskOptions.TaskName}]开始:{DateTime.Now.ToString("yyyy-MM-dd HH:mm:sss")}");
             }
-            tab_quarz_tasklog tab_Quarz_Tasklog = new tab_quarz_tasklog() { TaskName = taskOptions.TaskName, GroupName = taskOptions.GroupName, BeginDate = DateTime.Now };
+            tab_quarz_tasklog tab_Quarz_Tasklog = new tab_quarz_tasklog() { TaskName = taskOptions.TaskName, GroupName = taskOptions.GroupName, BeginDate = DateTime.Now,JobStatus=0 };
             if (string.IsNullOrEmpty(taskOptions.DllClassName))
             {
-                _logger.LogError($"组别:{trigger.Group},名称:{trigger.Name},类名不能为空!,时间:{DateTime.Now.ToString("yyyy-MM-dd HH:mm:sss")}");
+                var errmsg = $"组别:{trigger.Group},名称:{trigger.Name},类名不能为空!,时间:{DateTime.Now.ToString("yyyy-MM-dd HH:mm:sss")}";
+                _logger.LogError(errmsg);
                 //FileHelper.WriteFile(FileQuartz.LogPath + trigger.Group, $"{trigger.Name}.txt", $"{ DateTime.Now.ToString("yyyy-MM-dd HH:mm:sss")}未配置url,", true);
                 return;
             }
 
             try
             {
+               
                var services =  _serviceProvider.GetServices<IJobService>();
                 var service = services.Where(a => a.GetType().Name == taskOptions.DllClassName).FirstOrDefault();
                 if (service != null)
@@ -86,13 +88,16 @@ namespace GZY.Quartz.MUI.BaseJobs
             }
             catch (Exception ex)
             {
+                tab_Quarz_Tasklog.JobStatus = 1;
                 httpMessage = ex.Message;
+                _logger.LogError($"组别:{trigger.Group},名称:{trigger.Name},执行异常,异常信息:{ex.Message}!,时间:{DateTime.Now.ToString("yyyy-MM-dd HH:mm:sss")}");
             }
 
             try
             {
                 //string logContent = $"{(string.IsNullOrEmpty(httpMessage) ? "OK" : httpMessage)}\r\n";
                 tab_Quarz_Tasklog.EndDate = DateTime.Now;
+                tab_Quarz_Tasklog.DurationMs = (int)(tab_Quarz_Tasklog.EndDate - tab_Quarz_Tasklog.BeginDate)?.TotalMilliseconds;
                 tab_Quarz_Tasklog.Msg = httpMessage;
                 await _quartzLogService.AddLog(tab_Quarz_Tasklog);
             }

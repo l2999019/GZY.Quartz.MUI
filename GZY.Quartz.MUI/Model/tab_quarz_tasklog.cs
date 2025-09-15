@@ -34,9 +34,21 @@ namespace GZY.Quartz.MUI.Model
         public DateTime? EndDate { get; set; }
 
         /// <summary>
+        /// 任务耗时
+        /// </summary>
+        [Description("任务耗时(毫秒)")]
+        public int DurationMs { get; set; }
+
+        /// <summary>
         /// 任务执行结果
         /// </summary>
         [Description("任务执行结果")]
         public string Msg { get; set; }
+
+        /// <summary>
+        /// 任务执行状态0正常,1异常
+        /// </summary>
+        [Description("任务执行状态,0正常,1异常")]
+        public int JobStatus { get; set; }
     }
 }
