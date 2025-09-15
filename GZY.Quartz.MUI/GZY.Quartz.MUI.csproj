@@ -1,29 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-	<TargetFrameworks>net8.0;net6.0;net5.0</TargetFrameworks>
+	<TargetFrameworks>net9.0;net8.0;net6.0;net5.0</TargetFrameworks>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
-    <Version>2.7</Version>
+    <Version>2.8</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/l2999019/GZY.Quartz.MUI.git</RepositoryUrl>
     <PackageProjectUrl>https://github.com/l2999019/GZY.Quartz.MUI</PackageProjectUrl>
     <Description>
       基于Quartz定时任务的UI管理界面
-      2.7
-      1.添加API类任务的超时时间,可以通过全局配置也可以单个任务设置
-      2.设置定时任务日志查看默认按开始时间倒序
-      3.添加是否显示控制台日志的全局配置
-      4.优化UI显示-固定操作栏和表头,方便任务较多的情况下操作
-      5.优化UI显示-执行记录消息添加支持br关键字进行换行查看
+      2.8
+      1.新增任务界面搜索功能,可根据任务名称和任务分组名进行检索
+      2.新增任务仪表盘界面,方便随时监控定时任务情况
+      3.修复秒级任务在项目启动时偶尔会执行一次的BUG
+      4.修复API类型的任务异常被忽略,无法显示的问题
+      5.优化文件存储时,对文件操作的并发控制，确保在多线程环境下的安全性
     </Description>
     <Copyright>GuZhenYin</Copyright>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Authors>GuZhenYin</Authors>
     <PackageIcon>8P)KFD9L[JN90ZZIV]B2JRK.png</PackageIcon>
     <PackageIconUrl />
-    <AssemblyVersion>2.7.0</AssemblyVersion>
-    <FileVersion>2.7.0</FileVersion>
+    <AssemblyVersion>2.8.0</AssemblyVersion>
+    <FileVersion>2.8.0</FileVersion>
     <SignAssembly>False</SignAssembly>
     <PackageReleaseNotes></PackageReleaseNotes>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
@@ -55,6 +55,10 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.0" />
   </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.0" />
+  </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="wwwroot\**\*" />
@@ -74,12 +78,12 @@
       <Pack>True</Pack>
       <Content>
         基于Quartz定时任务的UI管理界面
-        2.7
-        1.添加API类任务的超时时间,可以通过全局配置也可以单个任务设置
-        2.设置定时任务日志查看默认按开始时间倒序
-        3.添加是否显示控制台日志的全局配置
-        4.优化UI显示-固定操作栏和表头,方便任务较多的情况下操作
-        5.优化UI显示-执行记录消息添加支持br关键字进行换行查看
+        2.8
+        1.新增任务界面搜索功能,可根据任务名称和任务分组名进行检索
+        2.新增任务仪表盘界面,方便随时监控定时任务情况
+        3.修复秒级任务在项目启动时偶尔会执行一次的BUG
+        4.修复API类型的任务异常被忽略,无法显示的问题
+        5.优化文件存储时,对文件操作的并发控制，确保在多线程环境下的安全性
       </Content>
       <PackagePath>\</PackagePath>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
