@@ -11,18 +11,18 @@ https://www.cnblogs.com/GuZhenYin/p/15411316.html
 简易步骤: 
 本地文件存储版本:  
 1.注入QuartzUI  
-  services.AddQuartzUI();  
+  `services.AddQuartzUI();`  
 2.如需开启ClassJob则注入以下内容  
-  services.AddQuartzClassJobs();  
+  `services.AddQuartzClassJobs();`  
   
 数据库版本 
 1.注入QuartzUI  
-var optionsBuilder = new DbContextOptionsBuilder<QuarzEFContext>();  
-optionsBuilder.UseMysql("server=xxxxxxx;database=xxx;User Id=xxxx;PWD=xxxx", b => b.MaxBatchSize(1));//创建数据库连接  
-services.AddQuartzUI(optionsBuilder.Options); //注入UI组件  
+`var optionsBuilder = new DbContextOptionsBuilder<QuarzEFContext>();`  
+`optionsBuilder.UseMysql("server=xxxxxxx;database=xxx;User Id=xxxx;PWD=xxxx", b => b.MaxBatchSize(1));//创建数据库连接`  
+`services.AddQuartzUI(optionsBuilder.Options); //注入UI组件`  
 
 2.在Startup的Configure方法中添加以下内容:  
-app.UseQuartz();  
+`app.UseQuartz();`  
   
   
 运行项目即可   
@@ -36,7 +36,7 @@ app.UseQuartz();
 
 .NET5.0的兄弟应该在Program类中添加如下代码:
 
-webBuilder.UseStaticWebAssets();
+`webBuilder.UseStaticWebAssets();`
 
 如图:
 ![image](https://github.com/l2999019/GZY.Quartz.MUI/assets/10385855/0c5cd8b7-00e8-439b-8131-58bfd5a1acc0)
@@ -45,9 +45,29 @@ webBuilder.UseStaticWebAssets();
 
 .NET6.0+的兄弟 应该添加如下代码:
 ![image](https://github.com/l2999019/GZY.Quartz.MUI/assets/10385855/cc0034ba-d126-463e-bca7-7bed395d3726)
-
+</br>
+</br>
+</br>
+ 2.7 更新说明:</br>
+ 注意:2.7如果是数据库存储并从老版本更新的话 请手动添加ApiTimeOut字段</br>
+ Mysql例子如下:</br>
+ `ALTER TABLE `tab_quarz_task` ADD COLUMN `ApiTimeOut` int NULL;` </br>
+ 1.添加API类任务的超时时间,可以通过全局配置也可以单个任务设置</br>
+ 2.设置定时任务日志查看默认按开始时间倒序</br>
+ 3.添加是否显示控制台日志的全局配置 </br>
+   目前支持两个参数 `ShowConsoleLog //是否显示控制台日志` ，`DefaultApiTimeOut //默认全局API超时时间` <br />
+   代码如下: </br>
+   `builder.Services.AddQuartzUI(quartzMUIOptions: new QuartzMUIOptions() { ShowConsoleLog=false,DefaultApiTimeOut=10});` </br>
+ 4.优化UI显示-固定操作栏和表头,方便任务较多的情况下操作</br>
+ 5.优化UI显示-执行记录消息添加支持br关键字进行换行查看</br>
+ 6.修复API类定时任务在没有参数的情况下会报错的问题</br>
    
   
   
 注:界面参考Quartz.NetUI
+
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=l2999019/GZY.Quartz.MUI&type=Date)](https://www.star-history.com/#l2999019/GZY.Quartz.MUI&Date)
 
