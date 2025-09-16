@@ -1,10 +1,10 @@
 # GZY.Quartz.MUI
 轻量级 Quartz 可视化管理 UI 组件库
-支持平台：.NET 5.0 / .NET 6.0 / .NET 8.0
+支持平台：.NET 5.0 / .NET 6.0 / .NET 8.0/ .NET 9.0
 
 |Licence| Build | NuGet | Support |
 |--|--|--|--|
-|![](https://svg.hamm.cn/badge.svg?key=Licence&value=MIT&color=e0861a)|![](https://svg.hamm.cn/badge.svg?key=.Net5.0&value=passing&color=45b97c)|[![](https://img.shields.io/nuget/dt/GZY.Quartz.MUI)](https://www.nuget.org/packages/GZY.Quartz.MUI)|.Net5.0&.Net6.0&.Net8.0
+|![](https://svg.hamm.cn/badge.svg?key=Licence&value=MIT&color=e0861a)|![](https://svg.hamm.cn/badge.svg?key=.Net5.0&value=passing&color=45b97c)|[![](https://img.shields.io/nuget/dt/GZY.Quartz.MUI)](https://www.nuget.org/packages/GZY.Quartz.MUI)|.Net5.0&.Net6.0&.Net8.0&.Net9.0
 
 ## ✨ 功能特性
 
@@ -95,6 +95,7 @@ webBuilder.UseStaticWebAssets();
  3.修复秒级任务在项目启动时偶尔会执行一次的BUG </br>
  4.修复API类型的任务异常被忽略,无法显示的问题</br>
  5.优化文件存储时,对文件操作的并发控制，确保在多线程环境下的安全性</br>
+ 6.组件相关支持到.net9.0</br>
  
  ---
  ### 2.7 更新说明:
