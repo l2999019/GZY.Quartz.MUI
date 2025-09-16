@@ -27,7 +27,7 @@ dotnet add package GZY.Quartz.MUI
 
 ## 🚀 快速开始
 
-一、文件存储版本（适合轻量应用)
+### 一、文件存储版本（适合轻量应用)
 
 1.在 Program.cs 或 Startup.cs 注册服务： 
 
@@ -40,7 +40,7 @@ services.AddQuartzClassJobs(); // 如果需要 ClassJob 模式
 app.UseQuartz();
 ```
 
-二、数据库存储版本(适合中大型需持久化任务场景,以mysql为例)
+### 二、数据库存储版本(适合中大型需持久化任务场景,以mysql为例)
 
 1.在 Program.cs 或 Startup.cs 注册服务：
 ```csharp
@@ -53,12 +53,12 @@ services.AddQuartzUI(optionsBuilder.Options); //注入UI组件
 app.UseQuartz();
 ```
 
-三、启动应用,并输入地址后缀/QuartzUI,比如:
+### 三、启动应用,并输入地址后缀/QuartzUI,比如:
 ```csharp
 localhost:5260/QuartzUI
 ```
 
-四、简易Basic授权,框架自带Basic授权可以直接启动,代码如下:
+### 四、简易Basic授权,框架自带Basic授权可以直接启动,代码如下:
 ```csharp
  app.UseQuartzUIBasicAuthorized();//注意:要在app.UseQuartz()之前注入授权.
  app.UseQuartz(); 
