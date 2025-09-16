@@ -12,7 +12,8 @@
 - 🔌 **ClassJob 模式支持**：直接通过类定义并注册任务  
 - 🗂️ **存储方式可选**：支持文件存储、数据库存储两种模式  
 - 📦 **Razor Class Library (RCL)** 打包：静态资源嵌入程序集，开箱即用  
-- 🛠️ **无侵入集成**：通过中间件和服务扩展快速接入  
+- 🛠️ **无侵入集成**：通过中间件和服务扩展快速接入
+- 🔒 **支持简易授权**：支持Basic简易授权,让界面更安全
 
 ---
 
@@ -57,6 +58,19 @@ app.UseQuartz();
 localhost:5260/QuartzUI
 ```
 
+四、简易Basic授权,框架自带Basic授权可以直接启动,代码如下:
+```csharp
+ app.UseQuartzUIBasicAuthorized();//注意:要在app.UseQuartz()之前注入授权.
+ app.UseQuartz(); 
+```
+默认账户名密码为:Admin,123456
+可以通过在配置文件中添加配置修改.如下:
+```json
+ "QuartzUI": {
+   "UserName": "xxx",
+   "Pwd": "xxx"
+ },
+```
 中文详细使用方法请参考:
 https://www.cnblogs.com/GuZhenYin/p/15411316.html  
 
