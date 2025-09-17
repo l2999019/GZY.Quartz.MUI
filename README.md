@@ -45,6 +45,7 @@ app.UseQuartz();
 1.在 Program.cs 或 Startup.cs 注册服务：
 ```csharp
 var optionsBuilder = new DbContextOptionsBuilder<QuarzEFContext>();
+//这里注意,请引用对应数据库的EF core的驱动. 理论上支持EF core的数据库 全支持
 optionsBuilder.UseMysql("server=xxxxxxx;database=xxx;User Id=xxxx;PWD=xxxx", b => b.MaxBatchSize(1));//创建数据库连接
 services.AddQuartzUI(optionsBuilder.Options); //注入UI组件
 ```
