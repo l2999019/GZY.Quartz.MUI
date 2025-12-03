@@ -4,7 +4,7 @@
 	<TargetFrameworks>net9.0;net8.0;net6.0;net5.0</TargetFrameworks>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
-    <Version>2.8</Version>
+    <Version>2.8.1</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/l2999019/GZY.Quartz.MUI.git</RepositoryUrl>
     <PackageProjectUrl>https://github.com/l2999019/GZY.Quartz.MUI</PackageProjectUrl>
@@ -22,8 +22,8 @@
     <Authors>GuZhenYin</Authors>
     <PackageIcon>8P)KFD9L[JN90ZZIV]B2JRK.png</PackageIcon>
     <PackageIconUrl />
-    <AssemblyVersion>2.8.0</AssemblyVersion>
-    <FileVersion>2.8.0</FileVersion>
+    <AssemblyVersion>2.8.1</AssemblyVersion>
+    <FileVersion>2.8.1</FileVersion>
     <SignAssembly>False</SignAssembly>
     <PackageReleaseNotes></PackageReleaseNotes>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
@@ -65,9 +65,9 @@
     <EmbeddedResource Include="resources\**\*" />
   </ItemGroup>
 
-  <ItemGroup>
+  <!--<ItemGroup>
     <Content Remove="wwwroot\vue\echarts.min.js" />
-  </ItemGroup>
+  </ItemGroup>-->
 
   <ItemGroup>
     <None Remove="8P%29KFD9L[JN90ZZIV]B2JRK.png" />
