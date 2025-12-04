@@ -102,8 +102,8 @@ webBuilder.UseStaticWebAssets();
  注意:2.8如果是数据库存储并从老版本更新的话 请手动添加JobStatus,DurationMs字段</br>
  Mysql例子如下:</br>
  ```sql
-  ALTER TABLE `tab_quarz_tasklog` ADD COLUMN `DurationMs` int NOT NULL COMMENT '任务耗时(毫秒)';
-  ALTER TABLE `tab_quarz_tasklog` ADD COLUMN `JobStatus` int NOT NULL COMMENT '任务执行结果';
+ALTER TABLE `tab_quarz_tasklog` ADD COLUMN `DurationMs` int DEFAULT 0 NOT NULL COMMENT '任务耗时(毫秒)';
+ALTER TABLE `tab_quarz_tasklog` ADD COLUMN `JobStatus` int DEFAULT 0 NOT NULL COMMENT '任务执行结果';
  ```
  1.新增任务界面搜索功能,可根据任务名称和任务分组名进行检索</br>
  2.新增任务仪表盘界面,方便随时监控定时任务情况</br>
