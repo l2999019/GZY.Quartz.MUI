@@ -2,6 +2,7 @@
 using GZY.Quartz.MUI.Config;
 using GZY.Quartz.MUI.Model;
 using GZY.Quartz.MUI.Service;
+using GZY.Quartz.MUI.Tools;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Quartz;
@@ -72,9 +73,9 @@ namespace GZY.Quartz.MUI.BaseJobs
 
             try
             {
-               
-               var services =  _serviceProvider.GetServices<IJobService>();
-                var service = services.Where(a => a.GetType().Name == taskOptions.DllClassName).FirstOrDefault();
+                //根据类名获取对应的服务类型
+                var type = ClassJobsFactory.JobServiceMap[taskOptions.DllClassName];
+                var service = (IJobService)_serviceProvider.GetRequiredService(type);
                 if (service != null)
                 {
                     httpMessage = service.ExecuteService(taskOptions.ApiParameter);

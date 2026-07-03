@@ -97,9 +97,10 @@ namespace GZY.Quartz.MUI.Extensions
             foreach (var implementType in implementTypes)
             {
                 var interfaceType = implementType.GetInterfaces().First();
-                    services.AddScoped(interfaceType, implementType);
-
+                services.AddScoped(interfaceType, implementType);
+                services.AddScoped(implementType);
                 ClassJobsFactory.ClassJobs.Add(implementType.Name);
+                ClassJobsFactory.JobServiceMap[implementType.Name] = implementType;
             }
             return services;
 
